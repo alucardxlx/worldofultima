@@ -1,0 +1,437 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007; Scripts by : Wolf_CZ
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, June 16, 2008
+//
+VERSION=0.56b
+
+//****************************************************************************
+//				Clothing
+//****************************************************************************
+[TYPEDEF T_CLOTHING]
+ON=@ClientToolTip
+IF (<TAG0.LINK> == 01)
+	LOCAL.TOOLTIP = <def.bfont_lgreen>WILL-BE-LINKED-ON-EQUIP<def.br>
+	LOCAL.TOOLTIP .= <def.bfont_white>Armor: <EVAL <TAG0.ARMOR>><def.br>
+ELSEIF (<TAG0.LINK> == 02)
+	LOCAL.TOOLTIP = <def.bfont_lgreen>WILL-BE-LINKED-ON-PICKUP<def.br>
+	LOCAL.TOOLTIP .= <def.bfont_white>Armor: <EVAL <TAG0.ARMOR>><def.br>
+ELSEIF (<LINK> != 04fffffff)
+	LOCAL.TOOLTIP = <def.bfont_lgreen>Linked with <LINK.NAME><def.br>
+	LOCAL.TOOLTIP .= <def.bfont_white>Armor: <EVAL <TAG0.ARMOR>><def.br>
+ELSE
+	LOCAL.TOOLTIP = Armor: <EVAL <TAG0.ARMOR>><def.br>
+ENDIF
+
+IF (<TAG0.sMINING> > 0)
+	LOCAL.TOOLTIP .= Mining skill +<EVAL <TAG0.sMINING>><def.br>
+ENDIF
+IF (<TAG0.sBLACKSMITHING> > 0)
+	LOCAL.TOOLTIP .= Blacksmithing skill +<EVAL <TAG0.sBLACKSMITHING>><def.br>
+ENDIF
+IF (<TAG0.sTAILORING> > 0)
+	LOCAL.TOOLTIP .= Tailoring skill +<EVAL <TAG0.sTAILORING>><def.br>
+ENDIF
+IF (<TAG0.HITPOINTSINCREASE> > 0)
+	LOCAL.TOOLTIP .= Hit points +<EVAL <TAG0.HITPOINTSINCREASE>><def.br>
+ENDIF
+IF (<TAG0.STAMPOINTSINCREASE> > 0)
+	LOCAL.TOOLTIP .= Stamina points +<EVAL <TAG0.STAMPOINTSINCREASE>><def.br>
+ENDIF
+IF (<TAG0.MANAPOINTSINCREASE> > 0)
+	LOCAL.TOOLTIP .= Mana points +<EVAL <TAG0.MANAPOINTSINCREASE>><def.br>
+ENDIF
+IF (<TAG0.STRINCREASE> > 0)
+	LOCAL.TOOLTIP .= Strength +<EVAL <TAG0.STRINCREASE>><def.br>
+ENDIF
+IF (<TAG0.STRINCREASE> < 0)
+	LOCAL.TOOLTIP .= Strength <EVAL <TAG0.STRINCREASE>><def.br>
+ENDIF
+IF (<TAG0.DEXINCREASE> > 0)
+	LOCAL.TOOLTIP .= Dexterity +<EVAL <TAG0.DEXINCREASE>><def.br>
+ENDIF
+IF (<TAG0.DEXINCREASE> < 0)
+	LOCAL.TOOLTIP .= Dexterity <EVAL <TAG0.DEXINCREASE>><def.br>
+ENDIF
+IF (<TAG0.INTINCREASE> > 0)
+	LOCAL.TOOLTIP .= Intelligence +<EVAL <TAG0.INTINCREASE>><def.br>
+ENDIF
+IF (<TAG0.INTINCREASE> < 0)
+	LOCAL.TOOLTIP .= Intelligence <EVAL <TAG0.INTINCREASE>><def.br>
+ENDIF
+IF (<TAG0.APINCREASE> > 0)
+	LOCAL.TOOLTIP .= Attack power +<EVAL <TAG0.APINCREASE>><def.br>
+ENDIF
+IF (<TAG0.MPINCREASE> > 0)
+	LOCAL.TOOLTIP .= Magic power +<EVAL <TAG0.MPINCREASE>><def.br>
+ENDIF
+IF (<TAG0.CRIT> > 0)
+	LOCAL.TOOLTIP .= Critical chance +<EVAL <TAG0.CRIT>><def.br>
+ENDIF
+IF (<TAG0.CRITPOWER> > 0)
+	LOCAL.TOOLTIP .= Critical power +<EVAL <TAG0.CRITPOWER>><def.br>
+ENDIF
+IF (<TAG0.MAGICCRIT> > 0)
+	LOCAL.TOOLTIP .= Magic Critical chance +<EVAL <TAG0.MAGICCRIT>><def.br>
+ENDIF
+IF (<TAG0.MAGICCRITPOWER> > 0)
+	LOCAL.TOOLTIP .= Magic Critical power +<EVAL <TAG0.MAGICCRITPOWER>><def.br>
+ENDIF
+IF (<TAG0.HITPOINTSPS> > 0)
+	LOCAL.TOOLTIP .= Hitpoints per second +<EVAL <TAG0.HITPOINTSPS>><def.br>
+ENDIF
+IF (<TAG0.STAMPOINTSPS> > 0)
+	LOCAL.TOOLTIP .= Stamina per second +<EVAL <TAG0.STAMPOINTSPS>><def.br>
+ENDIF
+IF (<TAG0.MANAPOINTSPS> > 0)
+	LOCAL.TOOLTIP .= Mana per second +<EVAL <TAG0.MANAPOINTSPS>><def.br>
+ENDIF
+
+IF ((<TAG0.ONLY> == 1)) && !(<SRC.ISEVENT.e_warrior>))
+	LOCAL.TOOLTIP .= <def.BFONT_LRED>Warriors Only<def.br>
+ELSEIF ((<TAG0.ONLY> == 1)) && (<SRC.ISEVENT.e_warrior>))
+	LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Warriors Only<def.br>
+ENDIF
+IF ((<TAG0.ONLY> == 2)) && !(<SRC.ISEVENT.e_mage>))
+	LOCAL.TOOLTIP .= <def.BFONT_LRED>Mages Only<def.br>
+ELSEIF ((<TAG0.ONLY> == 2)) && (<SRC.ISEVENT.e_mage>))
+	LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Mages Only<def.br>
+ENDIF
+
+IF (<TAG0.rBLACKSMITHING> > 0)
+	IF (<TAG0.rBLACKSMITHING> > <SRC.BLACKSMITHING>)
+		LOCAL.TOOLTIP .= <def.BFONT_LRED>Requires <EVAL <TAG0.rBLACKSMITHING>> blacksmithing<def.br>
+	ELSE
+		LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Requires <EVAL <TAG0.rBLACKSMITHING>> blacksmithing<def.br>
+	ENDIF
+ENDIF
+IF (<TAG0.rTAILORING> > 0)
+	IF (<TAG0.rTAILORING> > <SRC.TAILORING>)
+		LOCAL.TOOLTIP .= <def.BFONT_LRED>Requires <EVAL <TAG0.rTAILORING>> tailoring<def.br>
+	ELSE
+		LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Requires <EVAL <TAG0.rTAILORING>> tailoring<def.br>
+	ENDIF
+ENDIF
+
+IF (<TAG0.SPECIAL1> > 0)
+	LOCAL.TOOLTIP .= <def.BFONT_LYELLOW> <TAG.SPECIAL1><def.br>
+ENDIF
+IF (<TAG0.SPECIAL2> > 0)
+	LOCAL.TOOLTIP .= <def.BFONT_LYELLOW> <TAG.SPECIAL2><def.br>
+ENDIF
+IF (<TAG0.SPECIAL3> > 0)
+	LOCAL.TOOLTIP .= <def.BFONT_LYELLOW> <TAG.SPECIAL3><def.br>
+ENDIF
+
+IF (<TAG0.TYPE> == 00)
+	SRC.ADDCLILOC 1042971, <def.BFONT_white><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 01)
+	SRC.ADDCLILOC 1042971, <def.BFONT_magic><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 02)
+	SRC.ADDCLILOC 1042971, <def.BFONT_rare><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 03)
+	SRC.ADDCLILOC 1042971, <def.BFONT_set><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 04)
+	SRC.ADDCLILOC 1042971, <def.BFONT_unique><def.BIG><NAME>
+ENDIF
+
+IF (<ATTR> & 04)
+	LOCAL.TOOLTIP .= <def.BFONT_LGREEN>NEWBIE<def.br>
+ENDIF
+
+IF (<TAG0.LEVEL> > 0)
+	IF (<TAG0.LEVEL> > <SRC.TAG0.LEVEL>)
+		LOCAL.TOOLTIP .= <def.BFONT_LRED>Level <EVAL <TAG0.LEVEL>><def.br>
+	ELSE
+		LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Level <EVAL <TAG0.LEVEL>><def.br>
+	ENDIF
+ENDIF
+
+SRC.ADDCLILOC 1070722, <LOCAL.TOOLTIP>
+RETURN 1
+
+[ITEMDEF i_clothing_sandals]
+ID=0170d
+NAME=Sandals
+WEIGHT=1
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=1
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Sandals
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=1
+
+[ITEMDEF i_clothing_shoes]
+ID=0170f
+NAME=Shoes
+WEIGHT=2
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=2
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Shoes
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=2
+
+[ITEMDEF i_clothing_boots]
+ID=0170b
+NAME=Boots
+WEIGHT=2
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=2
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Boots
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=2
+
+[ITEMDEF i_clothing_thighboots]
+ID=01711
+NAME=Thigh Boots
+WEIGHT=3
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=3
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Thigh Boots
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=3
+
+[ITEMDEF i_clothing_shirt]
+ID=01517
+NAME=Shirt
+WEIGHT=2
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=2
+LAYER=13
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Shirt
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=2
+
+[ITEMDEF i_clothing_fancyshirt]
+ID=01efd
+NAME=Fancy Shirt
+WEIGHT=3
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=2
+LAYER=13
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Fancy Shirt
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=2
+
+[ITEMDEF i_clothing_robe]
+ID=01f03
+NAME=Robe
+WEIGHT=5
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=5
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Robe
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=5
+
+[ITEMDEF i_clothing_fancydress]
+ID=01eff
+NAME=Fancy Dress
+WEIGHT=5
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=5
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Fancy Dress
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=3
+
+[ITEMDEF i_clothing_plaindress]
+ID=01f01
+NAME=Plain Dress
+WEIGHT=5
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=5
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Plain Dress
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=3
+
+[ITEMDEF i_clothing_cloak]
+ID=01515
+NAME=Cloak
+WEIGHT=5
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=5
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Cloak
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=5
+
+[ITEMDEF i_clothing_shortpants]
+ID=0152e
+NAME=Short Pants
+WEIGHT=2
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=2
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Short Pants
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=2
+
+[ITEMDEF i_clothing_longpants]
+ID=01539
+NAME=Long Pants
+WEIGHT=3
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=2
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Long Pants
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=2
+
+[ITEMDEF i_clothing_wizardshat]
+ID=01718
+NAME=Wizard's Hat
+WEIGHT=1
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=1
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Wizard's Hat
+
+ON=@Create
+	HITPOINTS=100
+	TAG.ARMOR=1
+
+[ITEMDEF i_clothing_floppyhat]
+ID=01713
+NAME=Floppy Hat
+WEIGHT=1
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=1
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Floppy Hat
+
+ON=@Create
+     	HITPOINTS=100
+	TAG.ARMOR=1
+
+[ITEMDEF i_clothing_strawhat]
+ID=01717
+NAME=Straw Hat
+WEIGHT=1
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=1
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Straw Hat
+
+ON=@Create
+     	HITPOINTS=100
+	TAG.ARMOR=1
+
+[ITEMDEF i_clothing_bandana]
+ID=0153f
+NAME=Bandana
+WEIGHT=1
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=1
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Bandana
+
+ON=@Create
+     	HITPOINTS=100
+	TAG.ARMOR=1
+
+[ITEMDEF i_clothing_skullcap]
+ID=01543
+NAME=Skull Cap
+WEIGHT=1
+TYPE=T_CLOTHING
+DYE=0
+ARMOR=1
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Skull Cap
+
+ON=@Create
+     	HITPOINTS=100
+	TAG.ARMOR=1
+
+[EoF]

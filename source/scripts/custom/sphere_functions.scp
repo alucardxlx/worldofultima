@@ -1,0 +1,182 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007; Scripts by : Wolf_CZ
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, January 29, 2006
+//
+VERSION=0.56b
+
+//****************************************************************************
+//				Souborove funkce
+//****************************************************************************
+
+[FUNCTION f_log]
+FILE.MODE.APPEND
+LOCAL.SOUBOR=<FILE.OPEN log.txt>
+FILE.WRITELINE <ARGS>
+FILE.CLOSE
+
+[FUNCTION armory]
+FILE.MODE.REWRITE
+LOCAL.SOUBOR=<FILE.OPEN armory.html>
+
+FORPLAYERS 6142
+	FILE.WRITELINE h2 <NAME> /h2
+	FILE.WRITELINE <FINDLAYER(22).NAME>
+	IF (<FINDLAYER(22).TAG0.ARMOR> > 0)
+		FILE.WRITELINE Armor: <EVAL <FINDLAYER(22).TAG0.ARMOR>>
+	ENDIF
+ENDFOR
+
+FILE.WRITELINE <ARGS>
+FILE.CLOSE
+
+//****************************************************************************
+//					CHAT
+//****************************************************************************
+
+
+//C - CHAT
+//version 1.0 - Wolf
+[FUNCTION C]
+IF (<isempty <args>>)
+	CHAT_ZAPVYP
+	RETURN 1
+ELSE
+	IF (<ISGM>)
+		SERV.ALLCLIENTS CHATFROMGM = <NAME>: <args>
+	ELSE
+		SERV.ALLCLIENTS CHAT = <NAME>: <args>
+	ENDIF
+
+[FUNCTION GMC]
+IF (<isempty <args>>)
+	CHAT_ZAPVYP
+	RETURN 1
+ELSE
+	IF (<ISGM>)
+		SERV.ALLCLIENTS CHATFROMGMCHAT = <NAME>: <args>
+	ENDIF
+
+//+C
+[FUNCTION CHAT_ZAPVYP]
+IF (<ACCOUNT.TAG0.CHAT.ENABLED>)
+	SYSMESSAGE @0048 Chat vypnut!
+	ACCOUNT.TAG0.CHAT.ENABLED=
+ELSE
+	SYSMESSAGE @0048 Chat zapnut!
+	ACCOUNT.TAG0.CHAT.ENABLED=1
+ENDIF
+
+//+C
+[FUNCTION CHAT]
+IF (<account.tag0.chat.enabled>)
+	SYSMESSAGE @0802 <args>
+ENDIF 
+
+//+C 
+[FUNCTION CHATFROMGM]
+IF (<account.tag0.chat.enabled>)
+	SYSMESSAGE @0ba9 <args>
+ENDIF 
+
+[FUNCTION CHATFROMGMCHAT]
+IF (<account.tag0.chat.enabled>)
+	IF (<ISGM>)
+		SYSMESSAGE @0b96 <args>
+	ENDIF
+ENDIF 
+
+
+
+//****************************************************************************
+//				Herni funkce
+//****************************************************************************
+
+[FUNCTION DEAD]
+IF (<FLAGS>&statf_dead)
+	GO 5690,423
+	RESURRECT
+ENDIF
+
+[FUNCTION F_MONSTERCAST]
+	IF (<RESTEST 1 i_memory_spellpause>)
+		RETURN 1
+	ENDIF
+	IF !(<CANSEELOS>)
+		RETURN 1
+	ENDIF
+	SERV.NEWITEM i_memory_spellpause
+	NEW.TIMER=2
+	NEW.EQUIP
+	SERV.NEWITEM i_memory_spelleffect
+	NEW.LINK=<ARGV[0]>
+	NEW.MORE=<ARGV[1]>
+	NEW.MORE2=<ARGV[2]>
+	NEW.TIMER=1
+	NEW.EQUIP
+
+[FUNCTION F_SKILLGAIN]
+	LOCAL.RAND=<EVAL RAND(<ARGV[1]>)>
+	IF (<LOCAL.RAND> == 0)
+		IF (<TAG0.<ARGV[0]>> < 1000)
+			TAG0.<ARGV[0]> += 1
+			SYSMESSAGE=@0010c Tvuj skill se zvysil!
+		ENDIF
+	ENDIF
+
+//RERESPAWN - znovu spawne vsechny monstra na obrazovce
+[FUNCTION f_rerespawn]
+	FORCHARS 18
+		IF (<MEMORYFINDTYPE.memory_ispawned.LINK.AMOUNT> == 1)
+			REMOVE
+		ENDIF
+	ENDFOR
+	FORITEMS 18
+		IF (<BASEID> == i_worldgem_bit)	
+			TIMER=1
+		ENDIF
+	ENDFOR
+
+//RERESPAWN - znovu spawne vsechny monstra celkem daleko
+[FUNCTION f_rerespawn2]
+	FORCHARS 1000
+		IF (<MEMORYFINDTYPE.memory_ispawned.LINK.AMOUNT> == 1)
+			REMOVE
+		ENDIF
+	ENDFOR
+	FORITEMS 1000
+		IF (<BASEID> == i_worldgem_bit)	
+			TIMER=1
+		ENDIF
+	ENDFOR
+
+//TRESPAWN - znovu spawne vsechny poklady celkem daleko
+[FUNCTION f_trespawn]
+	FORITEMS 1000
+		IF ((<BASEID> == i_gm_treasurechest01) || (<BASEID> == i_gm_treasurechest02))
+			LOCAL.POCET += 1
+			TIMER=1
+		ENDIF
+	ENDFOR
+	SRC.SYSMESSAGE=Ok, spawnuto <EVAL <LOCAL.COUNT>> pokladu.
+
+
+[FUNCTION f_namehues]
+	FORCHARS 6000
+		IF (<ISEVENT.e_npc_vendor>)
+			SRC.SYSMESSAGE=<NAME> - Vendor
+			TAG.NAME.HUE=color_vendor
+		ENDIF
+		IF (<ISEVENT.e_npc_questgiver>)
+			SRC.SYSMESSAGE=<NAME> - Quest
+			TAG.NAME.HUE=color_quest
+		ENDIF
+	ENDFOR
+
+[EoF]

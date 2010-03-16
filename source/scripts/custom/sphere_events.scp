@@ -1,0 +1,566 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007; Scripts by : Wolf_CZ
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, June 24, 2009
+//
+VERSION=0.56b
+
+[EVENTS e_player]
+ON=@ClientToolTip
+IF (<ISEVENT.e_warrior>)
+	ADDCLILOC 1042971, <def.BFONT_lblue><def.BIG><NAME>
+	ADDCLILOC 1070722, <def.BFONT_white>Level <EVAL <TAG0.LEVEL>> Warrior
+	RETURN 1
+ELSEIF (<ISEVENT.e_mage>)
+	ADDCLILOC 1042971, <def.BFONT_lblue><def.BIG><NAME>
+	ADDCLILOC 1070722, <def.BFONT_white>Level <EVAL <TAG0.LEVEL>> Mage
+	RETURN 1
+ENDIF
+
+ON=@Login
+	STATTABLE
+	ABILITY
+
+ON=@UserQuestButton
+	QUESTTABLE
+
+On=@SkillGain
+	RETURN 1
+
+On=@SkillSelect
+	RETURN 1
+
+On=@Famechange
+	RETURN 1
+
+On=@Karmachange
+	RETURN 1
+
+ON=@HitTry
+	ARGN=20
+
+ON=@ItemPickUp_Ground
+IF (<ACT.TAG0.LINK> == 02)
+	ACT.LINK=<SRC.UID>
+	ACT.TAG0.LINK =
+ENDIF
+
+On=@GetHit
+	IF !(<ARGN2> == dam_god)
+		//Osetreni na damage od jinych hracu
+		IF ((<SRC.ISPLAYER>) && (<SRC.UID> != <UID>))
+			IF (<ARGN2> & dam_physical)
+				LOCAL.DMG= {<FEVAL <SRC.TAG0.LDMG>> <FEVAL <SRC.TAG0.HDMG>>}
+				LOCAL.PHYSICALDAMAGE=<FEVAL <FLOATVAL (<EVAL <LOCAL.DMG>> * (100 - <TAG.DAR>))/100>>
+				DAMAGE=<LOCAL.PHYSICALDAMAGE>,dam_god,<SRC.UID>
+
+				RETURN 1
+			ENDIF
+
+			IF (<ARGN2> & dam_magic)
+				DAMAGE=<LOCAL.DAMAGE>,dam_god,<SRC.UID>
+				
+				RETURN 1
+			ENDIF			
+		ENDIF
+
+		IF (<ARGN2> & dam_physical)
+			LOCAL.DMG= {<SRC.TAG0.LDMG> <SRC.TAG0.HDMG>}
+			LOCAL.PHYSICALDAMAGE=<FEVAL <FLOATVAL (<EVAL <LOCAL.DMG>> * (100 - <TAG.DAR>))/100>>
+			DAMAGE=<LOCAL.PHYSICALDAMAGE>,dam_god,<SRC.UID>
+
+			RETURN 1
+		ENDIF
+
+		IF (<ARGN2> & dam_magic)
+			DAMAGE=<LOCAL.DAMAGE>,dam_god,<SRC.UID>
+			
+			RETURN 1
+		ENDIF
+	ENDIF
+
+	SYSMESSAGE=<SRC.NAME> hits you for <ARGN1> damage.
+
+On=@ItemEquipTest
+	IF (<ACT.TAG0.LEVEL> > <TOPOBJ.TAG0.LEVEL>)
+			TOPOBJ.SYSMESSAGE=This item is for higher level character.
+			RETURN 1
+	ENDIF
+	IF ((<ACT.LINK> != 04fffffff)) && (<ACT.LINK.UID> != <TOPOBJ.UID>)
+		TOPOBJ.SYSMESSAGE This item is not linked with you!
+		RETURN 1
+	ENDIF
+	IF ((<ACT.TAG0.ONLY> == 1)) && !(<TOPOBJ.ISEVENT.e_warrior>))
+		TOPOBJ.SYSMESSAGE This item is not for your class!
+		RETURN 1
+	ENDIF
+	IF ((<ACT.TAG0.ONLY> == 2)) && !(<TOPOBJ.ISEVENT.e_mage>))
+		TOPOBJ.SYSMESSAGE This item is not for your class!
+		RETURN 1
+	ENDIF
+
+	IF ((<ACT.TAG0.LINK> == 01)) || (<ACT.TAG0.LINK> == 02))
+		ACT.LINK = <TOPOBJ.UID>
+		ACT.TAG.LINK=
+	ENDIF
+	IF (<ACT.TAG0.sMINING> != 0)
+		TOPOBJ.TAG0.sMINING += <ACT.TAG0.sMINING>
+		TOPOBJ.MINING += <ACT.TAG0.sMINING>
+	ENDIF
+	IF (<ACT.TAG0.sBLACKSMITHING> != 0)
+		TOPOBJ.TAG0.sBLACKSMITHING += <ACT.TAG0.sBLACKSMITHING>
+		TOPOBJ.BLACKSMITHING += <ACT.TAG0.sBLACKSMITHING>
+	ENDIF
+	IF (<ACT.TAG0.sTAILORING> != 0)
+		TOPOBJ.TAG0.sTAILORING += <ACT.TAG0.sTAILORING>
+		TOPOBJ.TAILORING += <ACT.TAG0.sTAILORING>
+	ENDIF
+	IF (<ACT.TAG0.HITPOINTSINCREASE> != 0)
+		TOPOBJ.TAG0.HITPOINTSINCREASE += <ACT.TAG0.HITPOINTSINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.STAMPOINTSINCREASE> != 0)
+		TOPOBJ.TAG0.STAMPOINTSINCREASE += <ACT.TAG0.STAMPOINTSINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.MANAPOINTSINCREASE> != 0)
+		TOPOBJ.TAG0.MANAPOINTSINCREASE += <ACT.TAG0.MANAPOINTSINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.STRINCREASE> != 0)
+		TOPOBJ.TAG0.STRINCREASE += <ACT.TAG0.STRINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.DEXINCREASE> != 0)
+		TOPOBJ.TAG0.DEXINCREASE += <ACT.TAG0.DEXINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.INTINCREASE> != 0)
+		TOPOBJ.TAG0.INTINCREASE += <ACT.TAG0.INTINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.APINCREASE> != 0)
+		TOPOBJ.TAG0.APINCREASE += <ACT.TAG0.APINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.MPINCREASE> != 0)
+		TOPOBJ.TAG0.MPINCREASE += <ACT.TAG0.MPINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.CRIT> != 0)
+		TOPOBJ.TAG0.CRIT += <ACT.TAG0.CRIT>
+	ENDIF
+	IF (<ACT.TAG0.CRITPOWER> != 0)
+		TOPOBJ.TAG0.CRITPOWER += <ACT.TAG0.CRITPOWER>
+	ENDIF
+	IF (<ACT.TAG0.MAGICCRIT> != 0)
+		TOPOBJ.TAG0.MAGICCRIT += <ACT.TAG0.MAGICCRIT>
+	ENDIF
+	IF (<ACT.TAG0.MAGICCRITPOWER> != 0)
+		TOPOBJ.TAG0.MAGICCRITPOWER += <ACT.TAG0.MAGICCRITPOWER>
+	ENDIF
+	IF (<ACT.TAG0.HITPOINTSPS> != 0)
+		TOPOBJ.TAG0.HITPOINTSPS += <ACT.TAG0.HITPOINTSPS>
+	ENDIF
+	IF (<ACT.TAG0.STAMPOINTSPS> != 0)
+		TOPOBJ.TAG0.STAMPOINTSPS += <ACT.TAG0.STAMPOINTSPS>
+	ENDIF
+	IF (<ACT.TAG0.MANAPOINTSPS> != 0)
+		TOPOBJ.TAG0.MANAPOINTSPS += <ACT.TAG0.MANAPOINTSPS>
+	ENDIF
+
+	IF (<ACT.TAG0.LDAM> != 0)
+		TOPOBJ.TAG0.LDAM += <ACT.TAG0.LDAM>
+	ENDIF
+	IF (<ACT.TAG0.HDAM> != 0)
+		TOPOBJ.TAG0.HDAM += <ACT.TAG0.HDAM>
+	ENDIF
+
+	TOPOBJ.TAG0.ARMOR += <ACT.TAG0.ARMOR>
+
+	ACT.TIMERF 1, RESENDTOOLTIP
+	F_SYSTEM_EQUIPPROPS
+
+On=@ItemUnequip
+	IF (<ACT.TAG0.sMINING> != 0)
+		TOPOBJ.TAG0.sMINING -= <ACT.TAG0.sMINING>
+		TOPOBJ.MINING -= <ACT.TAG0.sMINING>
+	ENDIF
+	IF (<ACT.TAG0.sBLACKSMITHING> != 0)
+		TOPOBJ.TAG0.sBLACKSMITHING -= <ACT.TAG0.sBLACKSMITHING>
+		TOPOBJ.BLACKSMITHING -= <ACT.TAG0.sBLACKSMITHING>
+	ENDIF
+	IF (<ACT.TAG0.sTAILORING> != 0)
+		TOPOBJ.TAG0.sTAILORING -= <ACT.TAG0.sTAILORING>
+		TOPOBJ.TAILORING -= <ACT.TAG0.sTAILORING>
+	ENDIF
+	IF (<ACT.TAG0.HITPOINTSINCREASE> != 0)
+		TOPOBJ.TAG0.HITPOINTSINCREASE -= <ACT.TAG0.HITPOINTSINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.STAMPOINTSINCREASE> != 0)
+		TOPOBJ.TAG0.STAMPOINTSINCREASE -= <ACT.TAG0.STAMPOINTSINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.MANAPOINTSINCREASE> != 0)
+		TOPOBJ.TAG0.MANAPOINTSINCREASE -= <ACT.TAG0.MANAPOINTSINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.STRINCREASE> != 0)
+		TOPOBJ.TAG0.STRINCREASE -= <ACT.TAG0.STRINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.DEXINCREASE> != 0)
+		TOPOBJ.TAG0.DEXINCREASE -= <ACT.TAG0.DEXINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.INTINCREASE> != 0)
+		TOPOBJ.TAG0.INTINCREASE -= <ACT.TAG0.INTINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.APINCREASE> != 0)
+		TOPOBJ.TAG0.APINCREASE -= <ACT.TAG0.APINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.MPINCREASE> != 0)
+		TOPOBJ.TAG0.MPINCREASE -= <ACT.TAG0.MPINCREASE>
+	ENDIF
+	IF (<ACT.TAG0.CRIT> != 0)
+		TOPOBJ.TAG0.CRIT -= <ACT.TAG0.CRIT>
+	ENDIF
+	IF (<ACT.TAG0.CRITPOWER> != 0)
+		TOPOBJ.TAG0.CRITPOWER -= <ACT.TAG0.CRITPOWER>
+	ENDIF
+	IF (<ACT.TAG0.MAGICCRIT> != 0)
+		TOPOBJ.TAG0.MAGICCRIT -= <ACT.TAG0.MAGICCRIT>
+	ENDIF
+	IF (<ACT.TAG0.MAGICCRITPOWER> != 0)
+		TOPOBJ.TAG0.MAGICCRITPOWER -= <ACT.TAG0.MAGICCRITPOWER>
+	ENDIF
+	IF (<ACT.TAG0.HITPOINTSPS> != 0)
+		TOPOBJ.TAG0.HITPOINTSPS -= <ACT.TAG0.HITPOINTSPS>
+	ENDIF
+	IF (<ACT.TAG0.STAMPOINTSPS> != 0)
+		TOPOBJ.TAG0.STAMPOINTSPS -= <ACT.TAG0.STAMPOINTSPS>
+	ENDIF
+	IF (<ACT.TAG0.MANAPOINTSPS> != 0)
+		TOPOBJ.TAG0.MANAPOINTSPS -= <ACT.TAG0.MANAPOINTSPS>
+	ENDIF
+
+	IF (<ACT.TAG0.LDAM> != 0)
+		TOPOBJ.TAG0.LDAM -= <ACT.TAG0.LDAM>
+	ENDIF
+	IF (<ACT.TAG0.HDAM> != 0)
+		TOPOBJ.TAG0.HDAM -= <ACT.TAG0.HDAM>
+	ENDIF
+
+	TOPOBJ.TAG0.ARMOR -= <ACT.TAG0.ARMOR>
+
+	ACT.TIMERF 1, RESENDTOOLTIP
+	F_SYSTEM_EQUIPPROPS
+
+ON=@StatChange
+	F_SYSTEM_EQUIPPROPS
+
+
+ON=@ItemClientTooltip
+	IF (<ACT.TYPE> == T_ALCHEMY_POTION)
+		IF ((<ACT.AMOUNT> > 1) && !(<ACT.TOPOBJ.ISEVENT.e_npc_vendor>))
+			SRC.ADDCLILOC 1042971, <def.BFONT_white><def.BIG><ACT.AMOUNT>x <ACT.NAME>
+		ELSE
+			SRC.ADDCLILOC 1042971, <def.BFONT_white><def.BIG><ACT.NAME>
+		ENDIF
+		IF (<ACT.TDATA1> == 1)
+			SRC.ADDCLILOC 1070722, <def.BFONT_white>Adds <EVAL <ACT.TDATA2>> to <EVAL <ACT.TDATA3>> hitpoints
+		ENDIF
+		IF (<ACT.TDATA1> == 2)
+			SRC.ADDCLILOC 1070722, <def.BFONT_white>Adds <EVAL <ACT.TDATA2>> to <EVAL <ACT.TDATA3>> mana
+		ENDIF
+		IF (<ACT.TDATA1> == 3)
+			SRC.ADDCLILOC 1070722, <def.BFONT_white>Adds <EVAL <ACT.TDATA2>> to <EVAL <ACT.TDATA3>> hitpoints and mana
+		ENDIF
+		RETURN 1
+	ENDIF
+
+	IF (<ACT.TYPE> == T_COOKING_FOOD)
+		IF ((<ACT.AMOUNT> > 1) && !(<ACT.TOPOBJ.ISEVENT.e_npc_vendor>))
+			SRC.ADDCLILOC 1042971, <def.BFONT_white><def.BIG><ACT.AMOUNT>x <ACT.NAME>
+		ELSE
+			SRC.ADDCLILOC 1042971, <def.BFONT_white><def.BIG><ACT.NAME>
+		ENDIF
+		IF (<ACT.TDATA1> == 1)
+			SRC.ADDCLILOC 1070722, <def.BFONT_white>Adds <EVAL <ACT.TDATA2>*60> hitpoints over 60 seconds.
+		ENDIF
+		IF (<ACT.TDATA1> == 2)
+			SRC.ADDCLILOC 1070722, <def.BFONT_white>Adds <EVAL <ACT.TDATA2>*60> mana over 60 seconds.
+		ENDIF
+		RETURN 1
+	ENDIF
+
+	IF (<ACT.TYPE> == T_HEALING_BANDAGE)
+		IF ((<ACT.AMOUNT> > 1) && !(<ACT.TOPOBJ.ISEVENT.e_npc_vendor>))
+			SRC.ADDCLILOC 1042971, <def.BFONT_white><def.BIG><ACT.AMOUNT>x <ACT.NAME>
+		ELSE
+			SRC.ADDCLILOC 1042971, <def.BFONT_white><def.BIG><ACT.NAME>
+		ENDIF
+		SRC.ADDCLILOC 1070722, <def.BFONT_white>Adds <EVAL <ACT.TDATA1>> hitpoints over 10 seconds.
+		RETURN 1
+	ENDIF
+
+
+	IF (<ACT.TYPE> == T_CONTAINER)
+		SRC.ADDCLILOC 1042971, <def.BFONT_white><def.BIG><ACT.NAME>
+		SRC.ADDCLILOC 1070722, <def.BFONT_white><ACT.COUNT> Items
+		RETURN 1
+	ENDIF
+
+	IF (<ACT.TYPE> == T_TOMEOFPORTAL)
+		IF (<ACT.ATTR>&04)
+			SRC.ADDCLILOC 1042971, <def.BFONT_unique><def.BIG><ACT.NAME>
+			SRC.ADDCLILOC 1070722, <def.BFONT_lgreen>NEWBIE
+		ELSE
+			SRC.ADDCLILOC 1042971, <def.BFONT_unique><def.BIG><ACT.NAME>
+		ENDIF
+		RETURN 1
+	ENDIF
+
+	IF (<ACT.TYPE> == T_GOLD)
+		IF ((<ACT.AMOUNT> > 1) && !(<ACT.TOPOBJ.ISEVENT.e_npc_vendor>))
+			SRC.ADDCLILOC 1042971, <def.BFONT_unique><def.BIG><ACT.AMOUNT> <ACT.NAME>s
+		ELSE
+			SRC.ADDCLILOC 1042971, <def.BFONT_unique><def.BIG>Gold Coin
+		ENDIF
+		RETURN 1
+	ENDIF
+
+	IF (<ACT.TYPE> == T_QUESTITEM)
+		IF ((<ACT.AMOUNT> > 1) && !(<ACT.TOPOBJ.ISEVENT.e_npc_vendor>))
+			SRC.ADDCLILOC 1042971, <def.BFONT_quest><def.BIG><ACT.AMOUNT>x <ACT.NAME>
+		ELSE
+			SRC.ADDCLILOC 1042971, <def.BFONT_quest><def.BIG><ACT.NAME>
+		ENDIF
+		IF (<ACT.ATTR>&04)
+			SRC.ADDCLILOC 1070722, <def.BFONT_white>Quest item<def.br><def.BFONT_lgreen>NEWBIE
+		ELSE
+			SRC.ADDCLILOC 1070722, <def.BFONT_white>Quest item<def.br>
+		ENDIF
+		RETURN 1
+	ENDIF
+
+[FUNCTION F_SYSTEM_EQUIPPROPS]
+	RESFIRE = <TAG0.FIRERES>
+	RESCOLD = <TAG0.COLDRES>
+	RESPOISON = <TAG0.POISONRES>
+	RESENERGY = <TAG0.ENERGYRES>
+
+	MODSTR = <TAG0.STRINCREASE>
+	MODDEX = <TAG0.DEXINCREASE>
+	MODINT = <TAG0.INTINCREASE>
+
+	MAXHITS = <TAG0.HITPOINTSINCREASE> + <STR>
+	MAXSTAM = <TAG0.STAMPOINTSINCREASE> + <DEX>
+	MAXMANA = <TAG0.MANAPOINTSINCREASE> + <INT>
+
+	TAG.AP = <STR> + <TAG0.APINCREASE>
+	TAG.MP = <INT> + <TAG0.MPINCREASE>
+	TAG.CP = 25 + <TAG0.CRITPOWER>
+	TAG.MCP = 25 + <TAG0.MAGICCRITPOWER>
+	
+	TAG.CPINC = <FLOATVAL (<EVAL <TAG0.CP>*5>/SQRT(<EVAL <TAG0.CP>>))+75>
+	TAG.MCPINC = <FLOATVAL (<EVAL <TAG0.MCP>*5>/SQRT(<EVAL <TAG0.MCP>>))+75>
+	TAG.DINC = <FLOATVAL (<EVAL <TAG0.AP>*5>/SQRT(<EVAL <TAG0.AP>>))+50>
+	TAG.MINC = <FLOATVAL (<EVAL <TAG0.MP>*5>/SQRT(<EVAL <TAG0.MP>>))+50>
+
+	TAG.CCH = <FLOATVAL ((<EVAL (<STR>+<TAG0.CRIT>)>)/SQRT(<STR>+<EVAL <TAG0.CRIT>>))/2>
+	TAG.MCH = <FLOATVAL ((<EVAL (<INT>+<TAG0.MCRIT>)>)/SQRT(<INT>+<EVAL <TAG0.MCRIT>>))/2>
+
+	TAG.AR = (<DEX>/5) + (<STR>/10) + (<TAG0.ARMOR>)
+	TAG.DAR = <FLOATVAL (SQRT(<EVAL <TAG.AR>>))>
+	TAG.LDMG = <FLOATVAL <EVAL <TAG0.LDAM>> * (<TAG.DINC>/100)>
+	TAG.HDMG = <FLOATVAL <EVAL <TAG0.HDAM>> * (<TAG.DINC>/100)>
+
+	//SRC.SYSMESSAGE = <FLOATVAL <EVAL <TAG0.LDAMG>> * (<TAG.DINC>/100)> - <FLOATVAL <EVAL <TAG0.HDAMG>> * (<TAG.DINC>/100)>
+	
+	STATTABLE
+
+[EVENTS e_warrior]
+
+[EVENTS e_mage]
+
+[EVENTS e_npc_good]
+ON=@ClientToolTip
+	IF !((<ISEVENT.e_npc_questgiver>) || (<ISEVENT.e_npc_vendor>))
+	SRC.ADDCLILOC 1042971, <def.BFONT_lblue><def.BIG><NAME><def.BR>
+	SRC.ADDCLILOC 1070722, <TITLE><def.BR>
+	RETURN 1
+	ENDIF
+
+[EVENTS e_npc_questgiver]
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1042971, <def.BFONT_lyellow><def.BIG><NAME><def.BR>
+	SRC.ADDCLILOC 1070722, <TITLE><def.BR>
+	RETURN 1
+
+[EVENTS e_npc_vendor]
+ON=@ClientToolTip
+	SRC.ADDCLILOC 1042971, <def.BFONT_lgreen><def.BIG><NAME><def.BR>
+	SRC.ADDCLILOC 1070722, <TITLE><def.BR>
+	RETURN 1
+
+[EVENTS e_monster]
+ON=@HitTry
+	ARGN=40
+
+On=@GetHit
+	IF !(<ARGN2> == dam_god)
+		IF (<ARGN2> & dam_physical)
+			LOCAL.DMG= {<FEVAL <SRC.TAG0.LDMG>> <FEVAL <SRC.TAG0.HDMG>>}
+			LOCAL.PHYSICALDAMAGE=<FEVAL <FLOATVAL (<EVAL <LOCAL.DMG>> * (100 - <TAG.DAR>))/100>>
+			IF (<FLOATVAL <R10000>/100> < <SRC.TAG0.CCH>)
+				LOCAL.PHYSICALDAMAGE=<LOCAL.PHYSICALDAMAGE> * 2
+				SRC.SAY @037 Critical Strike!
+			ENDIF
+			DAMAGE=<LOCAL.PHYSICALDAMAGE>,dam_god,<SRC.UID>
+
+			RETURN 1
+		ENDIF
+
+		IF (<ARGN2> & dam_magic)
+			DAMAGE=<LOCAL.DAMAGE>,dam_god,<SRC.UID>
+			
+			RETURN 1
+		ENDIF
+	ENDIF
+
+ON=@Death 
+	//Spawn fix
+	IF (<SRC.MEMORYFINDTYPE.memory_ispawned.LINK.AMOUNT> == 1)
+		SRC.MEMORYFINDTYPE.memory_ispawned.LINK.TIMER=<EVAL RAND(<SRC.MEMORYFINDTYPE.memory_ispawned.LINK.MOREX>,<SRC.MEMORYFINDTYPE.memory_ispawned.LINK.MOREY>)>*60
+	ENDIF
+
+[EVENTS e_animal]
+ON=@HitTry
+	ARGN=40
+
+On=@GetHit
+	IF !(<ARGN2> == dam_god)
+		IF (<ARGN2> & dam_physical)
+			LOCAL.DMG= {<FEVAL <SRC.TAG0.LDMG>> <FEVAL <SRC.TAG0.HDMG>>}
+			LOCAL.PHYSICALDAMAGE=<FEVAL <FLOATVAL (<EVAL <LOCAL.DMG>> * (100 - <TAG.DAR>))/100>>
+			IF (<FLOATVAL <R10000>/100> < <SRC.TAG0.CCH>)
+				LOCAL.PHYSICALDAMAGE=<LOCAL.PHYSICALDAMAGE> * 2
+				SRC.SAY @037 Critical Strike!
+			ENDIF
+			DAMAGE=<LOCAL.PHYSICALDAMAGE>,dam_god,<SRC.UID>
+
+			RETURN 1
+		ENDIF
+
+		IF (<ARGN2> & dam_magic)
+			DAMAGE=<LOCAL.DAMAGE>,dam_god,<SRC.UID>
+			
+			RETURN 1
+		ENDIF
+	ENDIF
+
+ON=@Death 
+	//Spawn fix
+	IF (<SRC.MEMORYFINDTYPE.memory_ispawned.LINK.AMOUNT> == 1)
+		SRC.MEMORYFINDTYPE.memory_ispawned.LINK.TIMER=<EVAL RAND(<SRC.MEMORYFINDTYPE.memory_ispawned.LINK.MOREX>,<SRC.MEMORYFINDTYPE.memory_ispawned.LINK.MOREY>)>*60
+	ENDIF
+
+[FUNCTION RFLOAT]
+return <FLOATVAL <R1000>/1000>
+
+[EVENTS e_gm]
+ON=@ClientToolTip
+	ADDCLILOC 1042971, <def.BFONT_lblue><def.BIG><NAME>
+	ADDCLILOC 1070722, <def.BFONT_lgreen><TITLE><def.BR><def.BFONT_white>Level: <EVAL <TAG0.LEVEL>>
+	RETURN 1
+
+[FUNCTION STATTABLE]
+tag.tooltip.temp =
+tag.tooltip.temp .= Max Hits: <TOPOBJ.MAXHITS><def.br>
+tag.tooltip.temp .= Max Stam: <TOPOBJ.MAXSTAM><def.br>
+tag.tooltip.temp .= Max Mana: <TOPOBJ.MAXMANA><def.br>
+tag.tooltip.temp .= <def.br>
+tag.tooltip.temp .= Armor: <EVAL <TOPOBJ.TAG.AR>> (<FVAL <FEVAL <FLOATVAL (<TAG.DAR>*10)>>>%)<def.br>
+tag.tooltip.temp .= Damage: <FEVAL <TAG.LDMG>> - <FEVAL <TAG.HDMG>> (<FVAL <FEVAL <FLOATVAL (<TAG.DINC>*10)>>>%)<def.br>
+tag.tooltip.temp .= Magic Damage: <FVAL <FEVAL <FLOATVAL (<TAG.MINC>*10)>>>%<def.br>
+tag.tooltip.temp .= <def.br>
+tag.tooltip.temp .= Attack Power: <EVAL <TOPOBJ.TAG.AP>><def.br>
+tag.tooltip.temp .= Magic Power: <EVAL <TOPOBJ.TAG.MP>><def.br>
+tag.tooltip.temp .= <def.br>
+tag.tooltip.temp .= Attack Critical Chance: <FVAL <FEVAL <FLOATVAL (<TAG.CCH>*10)>>>%<def.br>
+tag.tooltip.temp .= Attack Critical Power: <EVAL <TOPOBJ.TAG0.CP>> (<FVAL <FEVAL <FLOATVAL (<TAG.CPINC>*10)>>>%)<def.br>
+tag.tooltip.temp .= <def.br>
+tag.tooltip.temp .= Magic Critical Chance: <FVAL <FEVAL <FLOATVAL (<TAG.MCH>*10)>>>%<def.br>
+tag.tooltip.temp .= Magic Critical Power: <EVAL <TOPOBJ.TAG0.MCP>> (<FVAL <FEVAL <FLOATVAL (<TAG.MCPINC>*10)>>>%)<def.br>
+tag.tooltip.temp .= <def.br>
+tag.tooltip.temp .= Hitpoints per second: <EVAL <TAG0.HITPOINTSPS>><def.br>
+tag.tooltip.temp .= Stamina per second: <EVAL <TAG0.STAMPOINTSPS>><def.br>
+tag.tooltip.temp .= Mana per second: <EVAL <TAG0.MANAPOINTSPS>><def.br>
+tag.tooltip.temp .= <def.br>
+tag.tooltip.temp .= Active effects:<def.br>
+tag.tooltip.temp .= ---------------<def.br>
+IF (<RESTEST i_memory_ability_w1>)
+tag.tooltip.temp .= Jaggernault<def.br>
+ENDIF
+IF (<RESTEST i_memory_ability_w2>)
+tag.tooltip.temp .= Fast metabolism<def.br>
+ENDIF
+IF (<RESTEST i_memory_ability_w3>)
+tag.tooltip.temp .= Battlerage<def.br>
+ENDIF
+IF (<RESTEST i_memory_ability_w5>)
+tag.tooltip.temp .= Empowered<def.br>
+ENDIF
+IF (<RESTEST i_memory_ability_aegisofgladiator>)
+tag.tooltip.temp .= Aegis of Gladiator<def.br>
+ENDIF
+
+tag.tooltip.temp .= 
+trigger @createtooltip
+dialog d_stats
+tag.tooltip.temp =
+
+[dialog d_stats]
+810,1
+page 0
+noclose
+dialogclose d_stats
+dialogclose d_stats2
+//src.timerf 30, dialogclose d_stats
+resizepic 0 0 9270 350 610
+checkertrans 6 6 338 138
+resizepic 10 30 9350 330 570
+dhtmlgump 15 10 320 15 0 0 <def.bfont_lgray><TOPOBJ.NAME>, <TOPOBJ.TITLE> (Level: <EVAL <TAG0.LEVEL>>)<def.bfonte>
+dhtmlgump 15 35 320 560 0 0 <def.bfont_dgray><TOPOBJ.tag.tooltip.temp>
+
+[FUNCTION STATTABLE2]
+tag.tooltip.temp =
+tag.tooltip.temp .= <def.br>
+tag.tooltip.temp .= AR: <EVAL <TOPOBJ.TAG.AR>> (<FVAL <FEVAL <FLOATVAL (<TAG.DAR>*10)>>>%)<def.br>
+tag.tooltip.temp .= DAM: <FEVAL <TAG.LDMG>> - <FEVAL <TAG.HDMG>> (<FVAL <FEVAL <FLOATVAL (<TAG.DINC>*10)>>>%)<def.br>
+tag.tooltip.temp .= MDAM: <FVAL <FEVAL <FLOATVAL (<TAG.MINC>*10)>>>%<def.br>
+tag.tooltip.temp .= AP: <EVAL <TOPOBJ.TAG.AP>><def.br>
+tag.tooltip.temp .= MP: <EVAL <TOPOBJ.TAG.MP>><def.br>
+tag.tooltip.temp .= ACC: <FVAL <FEVAL <FLOATVAL (<TAG.CCH>*10)>>>%<def.br>
+tag.tooltip.temp .= ACP: <EVAL <TOPOBJ.TAG0.CP>> (<FVAL <FEVAL <FLOATVAL (<TAG.CPINC>*10)>>>%)<def.br>
+tag.tooltip.temp .= MCC: <FVAL <FEVAL <FLOATVAL (<TAG.MCH>*10)>>>%<def.br>
+tag.tooltip.temp .= MCP: <EVAL <TOPOBJ.TAG0.MCP>> (<FVAL <FEVAL <FLOATVAL (<TAG.MCPINC>*10)>>>%)<def.br>
+tag.tooltip.temp .= HPS: <EVAL <TAG0.HITPOINTSPS>><def.br>
+tag.tooltip.temp .= SPS: <EVAL <TAG0.STAMPOINTSPS>><def.br>
+tag.tooltip.temp .= MPS: <EVAL <TAG0.MANAPOINTSPS>><def.br>
+tag.tooltip.temp .= <def.br>
+
+tag.tooltip.temp .= 
+//trigger @createtooltip
+dialog d_stats2
+tag.tooltip.temp =
+
+[dialog d_stats2]
+810,1
+page 0
+noclose
+dialogclose d_stats
+dialogclose d_stats2
+//src.timerf 30, dialogclose d_stats
+resizepic 0 0 9270 210 280
+checkertrans 6 6 198 138
+resizepic 10 30 9350 190 240
+dhtmlgump 15 10 180 15 0 0 <def.bfont_lgray><TOPOBJ.NAME> - LVL: <EVAL <TAG0.LEVEL>><def.bfonte>
+dhtmlgump 15 35 180 230 0 0 <def.bfont_dgray><TOPOBJ.tag.tooltip.temp>
+
+[EoF]

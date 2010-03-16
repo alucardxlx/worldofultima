@@ -1,0 +1,12 @@
+[ITEMDEF i_blacksmithing_blacksmithershammer]
+ID=013e3
+NAME=Blacksmither's Hammer
+WEIGHT=10
+TYPE=T_WEAPON_MACE_PICK
+DAM=1,2
+
+CATEGORY=*06 Skills
+SUBSECTION=Blacksmithing Tools
+DESCRIPTION=Blacksmither's Hammer
+
+[EoF]

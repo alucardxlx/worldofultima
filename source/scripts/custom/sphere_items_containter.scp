@@ -1,0 +1,56 @@
+[ITEMDEF i_container_bag]
+NAME=Bag
+ID=0e76
+TYPE=T_CONTAINER
+WEIGHT=2
+VALUE=28
+
+CATEGORY=*07 Other
+SUBSECTION=Containers
+DESCRIPTION=Bag
+
+[ITEMDEF i_container_largecrate]
+NAME=Large Crate
+ID=0e3c
+TYPE=T_CONTAINER
+WEIGHT=24
+VALUE=28
+
+CATEGORY=*07 Other
+SUBSECTION=Containers
+DESCRIPTION=Large Crate
+
+[ITEMDEF i_container_crate]
+NAME=Crate
+ID=0e3e
+TYPE=T_CONTAINER
+WEIGHT=16
+VALUE=24
+
+CATEGORY=*07 Other
+SUBSECTION=Containers
+DESCRIPTION=Crate
+
+[ITEMDEF i_container_smallcrate]
+NAME=Small Crate
+ID=09a9
+TYPE=T_CONTAINER
+WEIGHT=8
+VALUE=20
+
+CATEGORY=*07 Other
+SUBSECTION=Containers
+DESCRIPTION=Small Crate
+
+[ITEMDEF i_container_metalchest]
+NAME=Metal Chest
+ID=09ab
+TYPE=T_CONTAINER
+WEIGHT=8
+VALUE=40
+
+CATEGORY=*07 Other
+SUBSECTION=Containers
+DESCRIPTION=Metal Chest
+
+[EoF]

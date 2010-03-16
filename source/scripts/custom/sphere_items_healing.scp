@@ -1,0 +1,79 @@
+[TYPEDEF T_HEALING_BANDAGE]
+ON=@Dclick
+	IF (<SRC.RESTEST 1 i_memory_bandagepause>)
+		SRC.SYSMESSAGE=You can't bandaga yourself for another <SRC.FINDID(i_memory_bandagepause).TIMER> seconds.
+		RETURN 1
+	ENDIF
+	TOPOBJ.ACTION=-1
+	TOPOBJ.ANIM=33
+	TOPOBJ.SOUND=89
+	SRC.EMOTE = started healing.
+	SRC.CONSUME = 1 <BASEID>
+	SERV.NEWITEM i_memory_bandagepause
+	NEW.TIMER=60
+	NEW.EQUIP
+	SERV.NEWITEM i_memory_bandageeffect
+	NEW.MORE=10
+	NEW.MORE2=<EVAL <TDATA1>/10>
+	NEW.TAG.PX=<SRC.P.X>
+	NEW.TAG.PY=<SRC.P.Y>
+	NEW.NAME=<NEW.NAME> - <NAME>
+	NEW.TIMER=1
+	NEW.EQUIP
+	RETURN 1
+
+//MORE - timer bandazovani, default 10
+//MORE2 - vyleceno za sec
+[ITEMDEF i_memory_bandageeffect]
+ID=02007
+NAME=Bandage Effect Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	IF (<MORE> > 0)
+		IF ((<TAG.PX> != <TOPOBJ.P.X>) || (<TAG.PY> != <TOPOBJ.P.Y>))
+			TOPOBJ.MESSAGE=You moved. Healing cancelled.
+			REMOVE
+		ELSEIF (<TOPOBJ.ACTION> != -1)
+			TOPOBJ.MESSAGE=You interrupted healing.
+			REMOVE
+		ELSE
+			MORE -= 1
+			TIMER = 1
+			TOPOBJ.ANIM=33
+			IF ((<MORE> == 5) || (<MORE> == 1))
+				TOPOBJ.SOUND=89
+			ENDIF
+			IF (<TOPOBJ.HITS> < <TOPOBJ.MAXHITS>)
+				TOPOBJ.HITS += <MORE2>
+				IF (<TOPOBJ.HITS> > <TOPOBJ.MAXHITS>)
+					TOPOBJ.HITS = <TOPOBJ.MAXHITS>
+				ENDIF
+			ENDIF
+		ENDIF
+	ELSE
+		REMOVE
+	ENDIF
+	RETURN 1
+
+[ITEMDEF i_memory_bandagepause]
+ID=02007
+NAME=Bandage Pause Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_healing_bandage]
+ID=0e21
+NAME=Bandage
+WEIGHT=1
+TYPE=T_HEALING_BANDAGE
+TDATA1=100
+
+CATEGORY=*06 Skills
+SUBSECTION=Healing
+DESCRIPTION=Bandage
+
+[EoF]

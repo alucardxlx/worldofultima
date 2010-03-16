@@ -1,0 +1,131 @@
+[TYPEDEF T_COOKING_FOOD]
+ON=@Dclick
+	IF (<TOPOBJ.UID> != <SRC.UID>)
+		SRC.SYSMESSAGE=You must have it in your backpack.
+		RETURN 1
+	ENDIF
+	IF (<SRC.RESTEST 1 i_memory_foodeffect>)
+		SRC.CONSUME i_memory_foodeffect
+	ENDIF
+	SRC.ACTION=-1
+	SRC.ANIM=34
+	IF (<TDATA1> == 1)
+	SRC.SOUND=03a
+	SRC.EMOTE = started eating <NAME>.
+	ELSE
+	SRC.SOUND=031
+	SRC.EMOTE = started drinking <NAME>.
+	ENDIF
+	SRC.CONSUME = 1 <BASEID>
+	SERV.NEWITEM i_memory_foodeffect
+	NEW.MORE=60
+	NEW.MORE2=<EVAL <TDATA2>>
+	NEW.MOREZ=<EVAL <TDATA1>>
+	NEW.TAG.PX=<SRC.P.X>
+	NEW.TAG.PY=<SRC.P.Y>
+	NEW.NAME=<NEW.NAME> - <NAME>
+	NEW.TIMER=1
+	NEW.EQUIP
+	RETURN 1
+
+//MORE - timer jidla, default 60
+//MORE2 - vyleceno za sec
+[ITEMDEF i_memory_foodeffect]
+ID=02007
+NAME=Food Effect Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	IF (<MORE> > 0) //timer 60s
+		IF ((<TAG.PX> != <TOPOBJ.P.X>) || (<TAG.PY> != <TOPOBJ.P.Y>))
+			TOPOBJ.MESSAGE=You moved! Interrupted.
+			REMOVE
+		ELSEIF (<TOPOBJ.ACTION> != -1)
+			TOPOBJ.MESSAGE=You have to stay in peace! Interrupted.
+			REMOVE
+		ELSE
+			MORE -= 1
+			TIMER = 1
+			TOPOBJ.ANIM=34
+			IF (<MOREZ> == 1)
+				IF ((<MORE> == 50) || (<MORE> == 40) || (<MORE> == 30) || (<MORE> == 5))
+					TOPOBJ.SOUND=03a
+				ENDIF
+				IF (<TOPOBJ.HITS> < <TOPOBJ.MAXHITS>)
+					TOPOBJ.HITS += <MORE2>
+					IF (<TOPOBJ.HITS> > <TOPOBJ.MAXHITS>)
+						TOPOBJ.HITS = <TOPOBJ.MAXHITS>
+					ENDIF
+				ENDIF
+			ENDIF
+			IF (<MOREZ> == 2)
+				IF ((<MORE> == 50) || (<MORE> == 40) || (<MORE> == 30) || (<MORE> == 5))
+					TOPOBJ.SOUND=031
+				ENDIF
+				IF (<TOPOBJ.MANA> < <TOPOBJ.MAXMANA>)
+					TOPOBJ.MANA += <MORE2>
+					IF (<TOPOBJ.MANA> > <TOPOBJ.MAXMANA>)
+						TOPOBJ.MANA = <TOPOBJ.MAXMANA>
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ELSE
+		REMOVE
+	ENDIF
+	RETURN 1
+
+[ITEMDEF i_cooking_bread]
+ID=0103b
+NAME=Bread
+WEIGHT=1
+TYPE=T_COOKING_FOOD
+TDATA1=1
+TDATA2=3
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Cooking
+DESCRIPTION=Bread
+
+
+[ITEMDEF i_cooking_cake]
+ID=09e9
+NAME=Cake
+WEIGHT=1
+TYPE=T_COOKING_FOOD
+TDATA1=1
+TDATA2=3
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Cooking
+DESCRIPTION=Cake
+
+[ITEMDEF i_cooking_pie]
+ID=01041
+NAME=Pie
+WEIGHT=1
+TYPE=T_COOKING_FOOD
+TDATA1=1
+TDATA2=2
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Cooking
+DESCRIPTION=Pie
+
+[ITEMDEF i_cooking_milk]
+ID=09ad
+NAME=Milk
+WEIGHT=1
+TYPE=T_COOKING_FOOD
+TDATA1=2
+TDATA2=4
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Cooking
+DESCRIPTION=Milk
+
+[EoF]

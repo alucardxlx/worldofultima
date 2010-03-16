@@ -1,0 +1,52 @@
+[TYPEDEF T_QUESTITEM]
+
+[ITEMDEF i_quest_deadrat]
+ID=02123
+NAME=Dead Rat
+WEIGHT=3
+TYPE=T_QUESTITEM
+
+CATEGORY=*02 Quest Items
+SUBSECTION=Default
+DESCRIPTION=Dead Rat
+
+ON=@Pickup_pack
+	IF (<TOPOBJ.BASEID> == i_corpse)
+		TOPOBJ.REMOVE
+	ENDIF
+
+[ITEMDEF i_quest_letterforgraham]
+ID=014ed
+NAME=Letter for Graham
+WEIGHT=2
+TYPE=T_QUESTITEM
+
+CATEGORY=*02 Quest Items
+SUBSECTION=Bedston
+DESCRIPTION=Letter for Graham
+
+ON=@Create
+	ATTR=attr_newbie
+
+ON=@Dclick
+	SRC.SYSMESSAGE=You can't read that, it's for Graham the Great.
+	RETURN 1
+
+[ITEMDEF i_quest_letterfordeckard]
+ID=014ed
+NAME=Letter for Deckard
+WEIGHT=2
+TYPE=T_QUESTITEM
+
+CATEGORY=*02 Quest Items
+SUBSECTION=Bedston
+DESCRIPTION=Letter for Deckard
+
+ON=@Create
+	ATTR=attr_newbie
+
+ON=@Dclick
+	SRC.SYSMESSAGE=You can't read that, bring it to Deckard Ironhead.
+	RETURN 1
+
+[EoF]

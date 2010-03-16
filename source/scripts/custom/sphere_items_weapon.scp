@@ -1,0 +1,260 @@
+//****************************************************************************
+//				Clothing
+//****************************************************************************
+[TYPEDEF T_WEAPON_SWORD]
+ON=@ClientToolTip
+IF (<TAG0.LINK> == 01)
+	LOCAL.TOOLTIP = <def.bfont_lgreen>WILL-BE-LINKED-ON-EQUIP<def.br>
+	LOCAL.TOOLTIP .= <def.bfont_white>Damage: <EVAL <TAG.LDAM>> - <EVAL <TAG.HDAM>><def.br>
+ELSEIF (<TAG0.LINK> == 02)
+	LOCAL.TOOLTIP = <def.bfont_lgreen>WILL-BE-LINKED-ON-PICKUP<def.br>
+	LOCAL.TOOLTIP .= <def.bfont_white>Damage: <EVAL <TAG.LDAM>> - <EVAL <TAG.HDAM>><def.br>
+ELSEIF (<LINK> != 04fffffff)
+	LOCAL.TOOLTIP = <def.bfont_lgreen>Linked with <LINK.NAME><def.br>
+	LOCAL.TOOLTIP .= <def.bfont_white>Damage: <EVAL <TAG.LDAM>> - <EVAL <TAG.HDAM>><def.br>
+ELSE
+	LOCAL.TOOLTIP = Damage: <EVAL <TAG.LDAM>> - <EVAL <TAG.HDAM>><def.br>
+ENDIF
+
+IF (<TAG0.sMINING> > 0)
+	LOCAL.TOOLTIP .= Mining skill +<EVAL <TAG0.sMINING>><def.br>
+ENDIF
+IF (<TAG0.sBLACKSMITHING> > 0)
+	LOCAL.TOOLTIP .= Blacksmithing skill +<EVAL <TAG0.sBLACKSMITHING>><def.br>
+ENDIF
+IF (<TAG0.sTAILORING> > 0)
+	LOCAL.TOOLTIP .= Tailoring skill +<EVAL <TAG0.sTAILORING>><def.br>
+ENDIF
+IF (<TAG0.HITPOINTSINCREASE> > 0)
+	LOCAL.TOOLTIP .= Hit points +<EVAL <TAG0.HITPOINTSINCREASE>><def.br>
+ENDIF
+IF (<TAG0.STAMPOINTSINCREASE> > 0)
+	LOCAL.TOOLTIP .= Stamina points +<EVAL <TAG0.STAMPOINTSINCREASE>><def.br>
+ENDIF
+IF (<TAG0.MANAPOINTSINCREASE> > 0)
+	LOCAL.TOOLTIP .= Mana points +<EVAL <TAG0.MANAPOINTSINCREASE>><def.br>
+ENDIF
+IF (<TAG0.STRINCREASE> > 0)
+	LOCAL.TOOLTIP .= Strength +<EVAL <TAG0.STRINCREASE>><def.br>
+ENDIF
+IF (<TAG0.STRINCREASE> < 0)
+	LOCAL.TOOLTIP .= Strength <EVAL <TAG0.STRINCREASE>><def.br>
+ENDIF
+IF (<TAG0.DEXINCREASE> > 0)
+	LOCAL.TOOLTIP .= Dexterity +<EVAL <TAG0.DEXINCREASE>><def.br>
+ENDIF
+IF (<TAG0.DEXINCREASE> < 0)
+	LOCAL.TOOLTIP .= Dexterity <EVAL <TAG0.DEXINCREASE>><def.br>
+ENDIF
+IF (<TAG0.INTINCREASE> > 0)
+	LOCAL.TOOLTIP .= Intelligence +<EVAL <TAG0.INTINCREASE>><def.br>
+ENDIF
+IF (<TAG0.INTINCREASE> < 0)
+	LOCAL.TOOLTIP .= Intelligence <EVAL <TAG0.INTINCREASE>><def.br>
+ENDIF
+IF (<TAG0.APINCREASE> > 0)
+	LOCAL.TOOLTIP .= Attack power +<EVAL <TAG0.APINCREASE>><def.br>
+ENDIF
+IF (<TAG0.MPINCREASE> > 0)
+	LOCAL.TOOLTIP .= Magic power +<EVAL <TAG0.MPINCREASE>><def.br>
+ENDIF
+IF (<TAG0.CRIT> > 0)
+	LOCAL.TOOLTIP .= Critical chance +<EVAL <TAG0.CRIT>><def.br>
+ENDIF
+IF (<TAG0.CRITPOWER> > 0)
+	LOCAL.TOOLTIP .= Critical power +<EVAL <TAG0.CRITPOWER>><def.br>
+ENDIF
+IF (<TAG0.MAGICCRIT> > 0)
+	LOCAL.TOOLTIP .= Magic Critical chance +<EVAL <TAG0.MAGICCRIT>><def.br>
+ENDIF
+IF (<TAG0.MAGICCRITPOWER> > 0)
+	LOCAL.TOOLTIP .= Magic Critical power +<EVAL <TAG0.MAGICCRITPOWER>><def.br>
+ENDIF
+IF (<TAG0.HITPOINTSPS> > 0)
+	LOCAL.TOOLTIP .= Hitpoints per second +<EVAL <TAG0.HITPOINTSPS>><def.br>
+ENDIF
+IF (<TAG0.STAMPOINTSPS> > 0)
+	LOCAL.TOOLTIP .= Stamina per second +<EVAL <TAG0.STAMPOINTSPS>><def.br>
+ENDIF
+IF (<TAG0.MANAPOINTSPS> > 0)
+	LOCAL.TOOLTIP .= Mana per second +<EVAL <TAG0.MANAPOINTSPS>><def.br>
+ENDIF
+
+IF ((<TAG0.ONLY> == 1)) && !(<SRC.ISEVENT.e_warrior>))
+	LOCAL.TOOLTIP .= <def.BFONT_LRED>Warriors Only<def.br>
+ELSEIF ((<TAG0.ONLY> == 1)) && (<SRC.ISEVENT.e_warrior>))
+	LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Warriors Only<def.br>
+ENDIF
+IF ((<TAG0.ONLY> == 2)) && !(<SRC.ISEVENT.e_mage>))
+	LOCAL.TOOLTIP .= <def.BFONT_LRED>Mages Only<def.br>
+ELSEIF ((<TAG0.ONLY> == 2)) && (<SRC.ISEVENT.e_mage>))
+	LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Mages Only<def.br>
+ENDIF
+
+IF (<TAG0.rBLACKSMITHING> > 0)
+	IF (<TAG0.rBLACKSMITHING> > <SRC.BLACKSMITHING>)
+		LOCAL.TOOLTIP .= <def.BFONT_LRED>Requires <EVAL <TAG0.rBLACKSMITHING>> blacksmithing<def.br>
+	ELSE
+		LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Requires <EVAL <TAG0.rBLACKSMITHING>> blacksmithing<def.br>
+	ENDIF
+ENDIF
+IF (<TAG0.rTAILORING> > 0)
+	IF (<TAG0.rTAILORING> > <SRC.TAILORING>)
+		LOCAL.TOOLTIP .= <def.BFONT_LRED>Requires <EVAL <TAG0.rTAILORING>> tailoring<def.br>
+	ELSE
+		LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Requires <EVAL <TAG0.rTAILORING>> tailoring<def.br>
+	ENDIF
+ENDIF
+
+IF (<TAG0.SPECIAL1> > 0)
+	LOCAL.TOOLTIP .= <def.BFONT_LYELLOW> <TAG.SPECIAL1><def.br>
+ENDIF
+IF (<TAG0.SPECIAL2> > 0)
+	LOCAL.TOOLTIP .= <def.BFONT_LYELLOW> <TAG.SPECIAL2><def.br>
+ENDIF
+IF (<TAG0.SPECIAL3> > 0)
+	LOCAL.TOOLTIP .= <def.BFONT_LYELLOW> <TAG.SPECIAL3><def.br>
+ENDIF
+
+IF (<TAG0.TYPE> == 00)
+	SRC.ADDCLILOC 1042971, <def.BFONT_white><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 01)
+	SRC.ADDCLILOC 1042971, <def.BFONT_magic><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 02)
+	SRC.ADDCLILOC 1042971, <def.BFONT_rare><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 03)
+	SRC.ADDCLILOC 1042971, <def.BFONT_set><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 04)
+	SRC.ADDCLILOC 1042971, <def.BFONT_unique><def.BIG><NAME>
+ENDIF
+
+IF (<ATTR> & 04)
+	LOCAL.TOOLTIP .= <def.BFONT_LGREEN>NEWBIE<def.br>
+ENDIF
+
+IF (<TAG0.LEVEL> > 0)
+	IF (<TAG0.LEVEL> > <SRC.TAG0.LEVEL>)
+		LOCAL.TOOLTIP .= <def.BFONT_LRED>Requires Level <EVAL <TAG0.LEVEL>><def.br>
+	ELSE
+		LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Requires Level <EVAL <TAG0.LEVEL>><def.br>
+	ENDIF
+ENDIF
+
+SRC.ADDCLILOC 1070722, <LOCAL.TOOLTIP>
+RETURN 1
+7
+[ITEMDEF i_weapon_peasantsword]
+NAME=Peasant Sword
+ID=013b9
+WEIGHT=20
+TYPE=T_WEAPON_SWORD
+DAM=10,20
+VALUE=10
+
+CATEGORY=*03 Weapon
+SUBSECTION=Swordsmanship
+DESCRIPTION=Peasant Sword
+
+ON=@Create
+	TAG.LDAM=2
+	TAG.HDAM=4
+	HITPOINTS=100
+
+[ITEMDEF i_weapon_longsword]
+NAME=Longsword
+ID=013b9
+WEIGHT=20
+TYPE=T_WEAPON_SWORD
+DAM=10,20
+VALUE=20
+
+CATEGORY=*03 Weapon
+SUBSECTION=Swordsmanship
+DESCRIPTION=Longsword
+
+ON=@Create
+	TAG.LDAM=3
+	TAG.HDAM=5
+	HITPOINTS=100
+
+[ITEMDEF i_weapon_ironlongsword]
+NAME=Iron Longsword
+ID=013b9
+WEIGHT=20
+TYPE=T_WEAPON_SWORD
+DAM=10,20
+VALUE=30
+
+CATEGORY=*03 Weapon
+SUBSECTION=Swordsmanship
+DESCRIPTION=Iron Longsword
+
+ON=@Create
+	TAG.LDAM=5
+	TAG.HDAM=8
+	HITPOINTS=100
+
+[ITEMDEF i_weapon_sharpenedlongsword]
+NAME=Sharpened Longsword
+ID=013b9
+WEIGHT=20
+TYPE=T_WEAPON_SWORD
+DAM=10,20
+VALUE=40
+
+CATEGORY=*03 Weapon
+SUBSECTION=Swordsmanship
+DESCRIPTION=Sharpened Longsword
+
+ON=@Create
+	TAG.LDAM=7
+	TAG.HDAM=11
+	HITPOINTS=100
+
+
+
+[ITEMDEF i_weapon_ironshortsword]
+NAME= Shortsword
+ID=0f60
+WEIGHT=25
+TYPE=T_WEAPON_SWORD
+DAM=9,18
+VALUE=35
+
+CATEGORY=*03 Weapon
+SUBSECTION=Blade
+DESCRIPTION=Iron Shortsword
+
+ON=@Create
+	HITPOINTS=100
+	TAG.SKILL=1
+
+
+//UNIQUE
+[ITEMDEF i_weapon_bedstonguardlongsword]
+NAME=Bedston Guard Longsword
+ID=013b9
+WEIGHT=20
+TYPE=T_WEAPON_SWORD
+DAM=10,20
+VALUE=40
+
+CATEGORY=*08 Uniques
+SUBSECTION=Weapon - Sword
+DESCRIPTION=Bedston Guard Longsword
+
+ON=@Create
+	TAG.LDAM=8
+	TAG.HDAM=10
+	TAG.STRINCREASE 10
+	M1
+	M2
+	MUUL
+	HITPOINTS=100
+
+
+[EoF]

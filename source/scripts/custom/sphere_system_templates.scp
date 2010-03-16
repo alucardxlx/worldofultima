@@ -1,0 +1,339 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007; Scripts by : Wolf_CZ
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, January 29, 2006
+//
+VERSION=0.56b
+
+
+[TEMPLATE i_template_armor_copper]
+CONTAINER=i_bag
+NAME=Copper Armor
+COLOR=color_copper
+ITEM=i_armor_copper_arms
+ITEM=i_armor_copper_greaves
+ITEM=i_armor_copper_helmet
+ITEM=i_armor_copper_gorget
+ITEM=i_armor_copper_gloves
+ITEM=i_armor_copper_cuirass
+
+CATEGORY=*09 Templates
+SUBSECTION=Armors
+DESCRIPTION=Copper Armor
+
+[TEMPLATE i_template_armor_iron]
+CONTAINER=i_bag
+NAME=Iron Armor
+COLOR=color_iron
+ITEM=i_armor_iron_arms
+ITEM=i_armor_iron_greaves
+ITEM=i_armor_iron_helmet
+ITEM=i_armor_iron_gorget
+ITEM=i_armor_iron_gloves
+ITEM=i_armor_iron_cuirass
+
+CATEGORY=*09 Templates
+SUBSECTION=Armors
+DESCRIPTION=Iron Armor
+
+[TEMPLATE i_template_armor_silver]
+CONTAINER=i_bag
+NAME=Silver Armor
+COLOR=color_silver
+ITEM=i_armor_silver_arms
+ITEM=i_armor_silver_greaves
+ITEM=i_armor_silver_helmet
+ITEM=i_armor_silver_gorget
+ITEM=i_armor_silver_gloves
+ITEM=i_armor_silver_cuirass
+
+CATEGORY=*09 Templates
+SUBSECTION=Armors
+DESCRIPTION=Silver Armor
+
+[TEMPLATE i_template_armor_lightleather]
+CONTAINER=i_bag
+NAME=Light Leather Armor
+COLOR=color_lightleather
+ITEM=i_armor_lightleather_arms
+ITEM=i_armor_lightleather_leggings
+ITEM=i_armor_lightleather_cap
+ITEM=i_armor_lightleather_gorget
+ITEM=i_armor_lightleather_gloves
+ITEM=i_armor_lightleather_tunic
+
+CATEGORY=*09 Templates
+SUBSECTION=Armors
+DESCRIPTION=Light Leather Armor
+
+[TEMPLATE i_template_armor_mediumleather]
+CONTAINER=i_bag
+NAME=Medium Leather Armor
+COLOR=color_mediumleather
+ITEM=i_armor_mediumleather_arms
+ITEM=i_armor_mediumleather_leggings
+ITEM=i_armor_mediumleather_cap
+ITEM=i_armor_mediumleather_gorget
+ITEM=i_armor_mediumleather_gloves
+ITEM=i_armor_mediumleather_tunic
+
+CATEGORY=*09 Templates
+SUBSECTION=Armors
+DESCRIPTION=Medium Leather Armor
+
+[TEMPLATE i_template_armor_heavyleather]
+CONTAINER=i_bag
+NAME=Heavy Leather Armor
+COLOR=color_heavyleather
+ITEM=i_armor_heavyleather_arms
+ITEM=i_armor_heavyleather_leggings
+ITEM=i_armor_heavyleather_cap
+ITEM=i_armor_heavyleather_gorget
+ITEM=i_armor_heavyleather_gloves
+ITEM=i_armor_heavyleather_tunic
+
+CATEGORY=*09 Templates
+SUBSECTION=Armors
+DESCRIPTION=Heavy Leather Armor
+
+[TEMPLATE i_template_potion_1]
+ITEM={ i_alchemy_lesserhealingpotion 1 i_alchemy_lessermanapotion 1}
+
+CATEGORY=*09 Templates
+SUBSECTION=Potions
+DESCRIPTION=Lesser Potions
+
+[TEMPLATE i_template_potion_2]
+ITEM={ i_alchemy_minorhealingpotion 1 i_alchemy_minormanapotion 1}
+
+CATEGORY=*09 Templates
+SUBSECTION=Potions
+DESCRIPTION=Minor Potions
+
+[TEMPLATE i_template_potion_3]
+ITEM={ i_alchemy_healingpotion 1 i_alchemy_manapotion 1}
+
+CATEGORY=*09 Templates
+SUBSECTION=Potions
+DESCRIPTION=Potions
+
+[TEMPLATE i_template_rnd_armor_copper]
+ITEM={ i_armor_copper_arms 1 i_armor_copper_greaves 1 i_armor_copper_helmet 1 i_armor_copper_gorget 1 i_armor_copper_gloves 1 i_armor_copper_cuirass 1 }
+
+[TEMPLATE i_template_rnd_armor_iron]
+ITEM={ i_armor_iron_arms 1 i_armor_iron_greaves 1 i_armor_iron_helmet 1 i_armor_iron_gorget 1 i_armor_iron_gloves 1 i_armor_iron_cuirass 1 }
+
+[TEMPLATE i_template_rnd_armor_lightleather]
+ITEM={ i_armor_lightleather_arms 1 i_armor_lightleather_leggings 1 i_armor_lightleather_cap 1 i_armor_lightleather_gorget 1 i_armor_lightleather_gloves 1 i_armor_lightleather_tunic 1 }
+
+[TEMPLATE i_template_rnd_armor_mediumleather]
+ITEM={ i_armor_mediumleather_arms 1 i_armor_mediumleather_leggings 1 i_armor_mediumleather_cap 1 i_armor_mediumleather_gorget 1 i_armor_mediumleather_gloves 1 i_armor_mediumleather_tunic 1 }
+
+[TEMPLATE i_template_rnd_armor_heavyleather]
+ITEM={ i_armor_heavyleather_arms 1 i_armor_heavyleather_leggings 1 i_armor_heavyleather_cap 1 i_armor_heavyleather_gorget 1 i_armor_heavyleather_gloves 1 i_armor_heavyleather_tunic 1 }
+
+
+[TEMPLATE template_vendor_cook_s]
+SELL=i_cooking_bread,{5 10}
+PRICE={20 30}
+SELL=i_cooking_pie,{5 10}
+PRICE={15 22}
+SELL=i_cooking_cake,{5 10}
+PRICE={20 30}
+SELL=i_cooking_milk,{5 10}
+PRICE={20 30}
+
+[TEMPLATE template_vendor_cook_b]
+BUY=i_cooking_bread,{5 10}
+PRICE=8
+BUY=i_cooking_pie,{5 10}
+PRICE=8
+BUY=i_cooking_cake,{5 10}
+PRICE=8
+BUY=i_cooking_milk,{5 10}
+PRICE=8
+
+
+[TEMPLATE template_vendor_mage_s]
+SELL=i_alchemy_lessermanapotion,{5 10}
+PRICE={20 30}
+SELL=i_alchemy_minormanapotion,{5 10}
+PRICE={50 70}
+SELL=i_alchemy_lesserhealingpotion,{5 10}
+PRICE={50 70}
+
+[TEMPLATE template_vendor_mage_b]
+BUY=i_alchemy_lessermanapotion,{5 10}
+PRICE=10
+BUY=i_alchemy_minormanapotion,{5 10}
+PRICE=20
+BUY=i_alchemy_lesserhealingpotion,{5 10}
+PRICE=10
+
+[TEMPLATE i_template_weapon_1]
+CONTAINER=i_bag
+NAME=Longswords
+ITEM=i_weapon_ironlongsword
+ITEM=i_weapon_fineironlongsword
+ITEM=i_weapon_steellongsword
+ITEM=i_weapon_finesteellongsword
+ITEM=i_weapon_dwarvenlongsword
+ITEM=i_weapon_orcishlongsword
+ITEM=i_weapon_elvenlongsword
+ITEM=i_weapon_glasslongsword
+ITEM=i_weapon_ebonylongsword
+ITEM=i_weapon_daedriclongsword
+
+CATEGORY=*09 Templates
+SUBSECTION=Weapon
+DESCRIPTION=Longswords
+
+[TEMPLATE i_template_weapon_2]
+CONTAINER=i_bag
+NAME=Shortswords
+ITEM=i_weapon_ironshortsword
+ITEM=i_weapon_fineironshortsword
+ITEM=i_weapon_steelshortsword
+ITEM=i_weapon_finesteelshortsword
+ITEM=i_weapon_dwarvenshortsword
+ITEM=i_weapon_orcishshortsword
+ITEM=i_weapon_elvenshortsword
+ITEM=i_weapon_glassshortsword
+ITEM=i_weapon_ebonyshortsword
+ITEM=i_weapon_daedricshortsword
+
+CATEGORY=*09 Templates
+SUBSECTION=Weapon
+DESCRIPTION=Shortswords
+
+[TEMPLATE i_template_weapon_3]
+CONTAINER=i_bag
+NAME=Daggers
+ITEM=i_weapon_irondagger
+ITEM=i_weapon_fineirondagger
+ITEM=i_weapon_steeldagger
+ITEM=i_weapon_finesteeldagger
+ITEM=i_weapon_dwarvendagger
+ITEM=i_weapon_orcishdagger
+ITEM=i_weapon_elvendagger
+ITEM=i_weapon_glassdagger
+ITEM=i_weapon_ebonydagger
+ITEM=i_weapon_daedricdagger
+
+CATEGORY=*09 Templates
+SUBSECTION=Weapon
+DESCRIPTION=Daggers
+
+[TEMPLATE i_template_weapon_4]
+CONTAINER=i_bag
+NAME=Maces
+ITEM=i_weapon_ironmace
+ITEM=i_weapon_fineironmace
+ITEM=i_weapon_steelmace
+ITEM=i_weapon_finesteelmace
+ITEM=i_weapon_dwarvenmace
+ITEM=i_weapon_orcishmace
+ITEM=i_weapon_elvenmace
+ITEM=i_weapon_glassmace
+ITEM=i_weapon_ebonymace
+ITEM=i_weapon_daedricmace
+
+CATEGORY=*09 Templates
+SUBSECTION=Weapon
+DESCRIPTION=Maces
+
+[TEMPLATE i_template_weapon_5]
+CONTAINER=i_bag
+NAME=Axes
+ITEM=i_weapon_ironaxe
+ITEM=i_weapon_fineironaxe
+ITEM=i_weapon_steelaxe
+ITEM=i_weapon_finesteelaxe
+ITEM=i_weapon_dwarvenaxe
+ITEM=i_weapon_orcishaxe
+ITEM=i_weapon_elvenaxe
+ITEM=i_weapon_glassaxe
+ITEM=i_weapon_ebonyaxe
+ITEM=i_weapon_daedricaxe
+
+CATEGORY=*09 Templates
+SUBSECTION=Weapon
+DESCRIPTION=Axes
+
+[TEMPLATE i_template_weapon_6]
+CONTAINER=i_bag
+NAME=War Axes
+ITEM=i_weapon_ironwaraxe
+ITEM=i_weapon_fineironwaraxe
+ITEM=i_weapon_steelwaraxe
+ITEM=i_weapon_finesteelwaraxe
+ITEM=i_weapon_dwarvenwaraxe
+ITEM=i_weapon_orcishwaraxe
+ITEM=i_weapon_elvenwaraxe
+ITEM=i_weapon_glasswaraxe
+ITEM=i_weapon_ebonywaraxe
+ITEM=i_weapon_daedricwaraxe
+
+CATEGORY=*09 Templates
+SUBSECTION=Weapon
+DESCRIPTION=War Axes
+
+[TEMPLATE i_template_chest01]
+ITEM=i_gold,{30 50}
+ITEM={ i_template_rnd_weapon_2 1 0 9 }
+ITEM={ i_template_rnd_armor_2 1 0 9 }
+ITEM={ i_misc_lockpick 1 0 9 },{1 10}
+ITEM=i_template_potion_1
+ITEM={ i_template_rnd_spellbook_1 1 0 9}
+ITEM={ i_potion_rnd_heal 1 0 3}
+ITEM={ i_potion_rnd_mana 1 0 3}
+
+[TEMPLATE i_template_chest02]
+ITEM=i_gold,{50 80}
+ITEM={ i_template_rnd_weapon_3 1 0 9 }
+ITEM={ i_template_rnd_armor_3 1 0 9 }
+ITEM={ i_misc_lockpick 1 0 9 },{1 10}
+ITEM=i_template_potion_1
+ITEM=i_template_rnd_spellbook_1
+ITEM={ i_potion_rnd_heal 1 0 3}
+ITEM={ i_potion_rnd_mana 1 0 3}
+
+[TEMPLATE i_template_monster01]
+ITEM={ i_gold 1 0 6 },{5 10}
+ITEM={ i_misc_lockpick 1 0 15 },{1 2}
+ITEM={ i_potion_rnd_heal 1 0 9}
+
+[TEMPLATE i_template_monstermagic01]
+ITEM={ i_potion_rnd_mana 1 0 4}
+
+[TEMPLATE i_template_rnd_sword_1]
+ITEM={ i_weapon_ironlongsword 1 i_weapon_ironshortsword 1 i_weapon_irondagger 1}
+
+[TEMPLATE i_template_rnd_blunt_1]
+ITEM={ i_weapon_ironmace 1 i_weapon_ironaxe 1 i_weapon_ironwaraxe 1}
+
+[TEMPLATE i_template_rnd_weapon_1]
+ITEM={ i_weapon_ironlongsword 1 i_weapon_ironshortsword 1 i_weapon_irondagger 1 i_weapon_ironmace 1 i_weapon_ironaxe 1 i_weapon_ironwaraxe 1}
+
+[TEMPLATE i_template_rnd_weapon_2]
+ITEM={ i_weapon_fineironlongsword 1 i_weapon_fineironshortsword 1 i_weapon_fineirondagger 1 i_weapon_fineironmace 1 i_weapon_fineironaxe 1 i_weapon_fineironwaraxe 1}
+
+[TEMPLATE i_template_rnd_weapon_3]
+ITEM={ i_weapon_steellongsword 1 i_weapon_steelshortsword 1 i_weapon_steeldagger 1 i_weapon_steelmace 1 i_weapon_steelaxe 1 i_weapon_steelwaraxe 1}
+
+[TEMPLATE i_template_rnd_armor_1]
+ITEM={ i_template_rnd_armor_iron 1 i_template_rnd_armor_fur 1 }
+
+[TEMPLATE i_template_rnd_armor_2]
+ITEM={ i_template_rnd_armor_steel 1 i_template_rnd_armor_leather 1 }
+
+[TEMPLATE i_template_rnd_armor_3]
+ITEM={ i_template_rnd_armor_dwarven 1 i_template_rnd_armor_chainmail 1 }
+
+[EOF]

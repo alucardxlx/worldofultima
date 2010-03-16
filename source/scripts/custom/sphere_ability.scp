@@ -1,0 +1,499 @@
+[FUNCTION ABILITY]
+dialog d_ability
+
+[dialog d_ability]
+810,610
+page 0
+noclose
+dialogclose d_ability
+resizepic 0 0 9270 350 325
+checkertrans 6 6 338 138
+resizepic 10 30 9350 330 285
+IF (<SRC.ISEVENT.e_warrior>)
+IF !(<SRC.RESTEST i_memory_ability_w1w>)
+	button 20 40 2254 2254 1 0 1
+	gumppic 20 40 2254 072
+ELSE
+	button 20 40 2254 2254 1 0 1
+	gumppic 20 40 2254 037
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_w2w>)
+	button 20 95 2243 2243 1 0 2
+	gumppic 20 95 2243 072
+ELSE
+	button 20 95 2243 2243 1 0 2
+	gumppic 20 95 2243 037
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_w3w>)
+	button 20 150 20736 20736 1 0 3
+	gumppic 20 150 20736 072
+ELSE
+	button 20 150 20736 20736 1 0 3
+	gumppic 20 150 20736 037
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_w4w>)
+	button 20 205 2268 2268 1 0 4
+	gumppic 20 205 2268 072
+ELSE
+	button 20 205 2268 2268 1 0 4
+	gumppic 20 205 2268 037
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_w5w>)
+	button 20 260 21256 21256 1 0 5
+	gumppic 20 260 21256 072
+ELSE
+	button 20 260 21256 21256 1 0 5
+	gumppic 20 260 21256 037
+ENDIF
+dtext 75 50 0 Increases your armor.
+dtext 75 105 0 Increases your hitpoints regeneration.
+dtext 75 160 0 Increases your strength and dexterity.
+dtext 75 215 0 Heals you instantly.
+dtext 75 270 0 Increases your attack power.
+ENDIF
+IF (<SRC.ISEVENT.e_mage>)
+IF !(<SRC.RESTEST i_memory_ability_m1w>)
+	button 20 40 2254 2254 1 0 6
+	gumppic 20 40 2254 072
+ELSE
+	button 20 40 2254 2254 1 0 6
+	gumppic 20 40 2254 037
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_m2w>)
+	button 20 95 20487 20487 1 0 7
+	gumppic 20 95 20487 072
+ELSE
+	button 20 95 20487 20487 1 0 7
+	gumppic 20 95 20487 037
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_m3w>)
+	button 20 150 2270 2270 1 0 8
+	gumppic 20 150 2270 072
+ELSE
+	button 20 150 2270 2270 1 0 8
+	gumppic 20 150 2270 037
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_m4w>)
+	button 20 205 2242 2242 1 0 9
+	gumppic 20 205 2242 072
+ELSE
+	button 20 205 2242 2242 1 0 9
+	gumppic 20 205 2242 037
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_m5w>)
+	button 20 260 2292 2292 1 0 10
+	gumppic 20 260 2292 072
+ELSE
+	button 20 260 2292 2292 1 0 10
+	gumppic 20 260 2292 037
+ENDIF
+dtext 75 50 0 Increases your armor.
+dtext 75 105 0 Increases your mana regeneration.
+dtext 75 160 0 Increases your intelligence and dexterity.
+dtext 75 215 0 Refreshes your mana instantly.
+dtext 75 270 0 Increases your magic power.
+ENDIF
+
+dhtmlgump 15 10 320 15 0 0 <def.bfont_lgray><TOPOBJ.NAME>'s Class Abilities<def.bfonte>
+
+[DIALOG d_ability BUTTON]
+ON=1
+IF !(<SRC.RESTEST i_memory_ability_w1w>)
+	SERV.NEWITEM i_memory_ability_w1
+	NEW.TAG.ARMOR=150
+	NEW.TIMER=30
+	NEW.EQUIP
+	SERV.NEWITEM i_memory_ability_w1w
+	NEW.TIMER=60
+	NEW.EQUIP
+	SRC.SOUND=snd_SPELL_PROTECTION
+	SRC.EFFECT=3,i_fx_BLESS_EFFECT,8,16,1
+ELSE
+	SRC.SYSMESSAGE=You can't use that ability for another <SRC.FINDID(i_memory_ability_w1w).TIMER> seconds.
+ENDIF	
+ABILITY
+
+ON=2
+IF !(<SRC.TAG0.LEVEL> > 1)
+	SRC.SYSMESSAGE=This ability cannot be used until you reach level 2.			
+	ABILITY
+	RETURN 1
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_w2w>)
+	SERV.NEWITEM i_memory_ability_w2
+	NEW.TAG.HITPOINTSPS=5
+	NEW.TIMER=30
+	NEW.EQUIP
+	SERV.NEWITEM i_memory_ability_w2w
+	NEW.TIMER=120
+	NEW.EQUIP
+	SRC.SOUND=snd_SPELL_HEAL
+	SRC.EFFECT=3,i_fx_HEAL_EFFECT,8,16,1
+ELSE
+	SRC.SYSMESSAGE=You can't use that ability for another <SRC.FINDID(i_memory_ability_w2w).TIMER> seconds.
+ENDIF			
+ABILITY
+
+ON=3
+IF !(<SRC.TAG0.LEVEL> > 1)
+	SRC.SYSMESSAGE=This ability cannot be used until you reach level 2.			
+	ABILITY
+	RETURN 1
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_w3w>)
+	SERV.NEWITEM i_memory_ability_w3
+	NEW.TAG.STRINCREASE=50
+	NEW.TAG.DEXINCREASE=50
+	NEW.TIMER=30
+	NEW.EQUIP
+	SERV.NEWITEM i_memory_ability_w3w
+	NEW.TIMER=180
+	NEW.EQUIP
+	SRC.SOUND=snd_SPELL_ARCHPROTECTION
+	SRC.EFFECT=3,i_fx_BLESS_EFFECT,8,16,1
+ELSE
+	SRC.SYSMESSAGE=You can't use that ability for another <SRC.FINDID(i_memory_ability_w3w).TIMER> seconds.
+ENDIF		
+ABILITY
+
+ON=4
+IF !(<SRC.TAG0.LEVEL> > 2)
+	SRC.SYSMESSAGE=This ability cannot be used until you reach level 3.			
+	ABILITY
+	RETURN 1
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_w4w>)
+	SRC.HITS=<SRC.MAXHITS>
+	SERV.NEWITEM i_memory_ability_w4w
+	NEW.TIMER=240
+	NEW.EQUIP
+	SRC.SOUND=snd_SPELL_INVISIBILITY
+	SRC.EFFECT=3,i_fx_HEAL_EFFECT,8,16,1
+ELSE
+	SRC.SYSMESSAGE=You can't use that ability for another <SRC.FINDID(i_memory_ability_w4w).TIMER> seconds.
+ENDIF	
+ABILITY
+	
+ON=5
+IF !(<SRC.TAG0.LEVEL> > 2)
+	SRC.SYSMESSAGE=This ability cannot be used until you reach level 3.			
+	ABILITY
+	RETURN 1
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_w5w>)
+	SERV.NEWITEM i_memory_ability_w5
+	NEW.TAG.APINCREASE=<EVAL (<SRC.TAG0.AP>/4)>
+	NEW.TIMER=30
+	NEW.EQUIP
+	SERV.NEWITEM i_memory_ability_w5w
+	NEW.TIMER=300
+	NEW.EQUIP
+	SRC.SOUND=05aa
+	SRC.EFFECT=3,i_fx_HEAL_EFFECT,8,16,1
+ELSE
+	SRC.SYSMESSAGE=You can't use that ability for another <SRC.FINDID(i_memory_ability_w5w).TIMER> seconds.
+ENDIF	
+ABILITY
+
+ON=6
+IF !(<SRC.RESTEST i_memory_ability_m1w>)
+	SERV.NEWITEM i_memory_ability_m1
+	NEW.TAG.ARMOR=150
+	NEW.TIMER=30
+	NEW.EQUIP
+	SERV.NEWITEM i_memory_ability_m1w
+	NEW.TIMER=60
+	NEW.EQUIP
+	SRC.SOUND=snd_SPELL_PROTECTION
+	SRC.EFFECT=3,i_fx_BLESS_EFFECT,8,16,1
+ELSE
+	SRC.SYSMESSAGE=You can't use that ability for another <SRC.FINDID(i_memory_ability_m1w).TIMER> seconds.
+ENDIF	
+ABILITY
+
+ON=7
+IF !(<SRC.TAG0.LEVEL> > 1)
+	SRC.SYSMESSAGE=This ability cannot be used until you reach level 2.			
+	ABILITY
+	RETURN 1
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_m2w>)
+	SERV.NEWITEM i_memory_ability_m2
+	NEW.TAG.MANAPOINTSPS=5
+	NEW.TIMER=30
+	NEW.EQUIP
+	SERV.NEWITEM i_memory_ability_m2w
+	NEW.TIMER=120
+	NEW.EQUIP
+	SRC.SOUND=snd_SPELL_HEAL
+	SRC.EFFECT=3,i_fx_HEAL_EFFECT,8,16,1
+ELSE
+	SRC.SYSMESSAGE=You can't use that ability for another <SRC.FINDID(i_memory_ability_m2w).TIMER> seconds.
+ENDIF			
+ABILITY
+
+ON=8
+IF !(<SRC.TAG0.LEVEL> > 1)
+	SRC.SYSMESSAGE=This ability cannot be used until you reach level 2.			
+	ABILITY
+	RETURN 1
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_m3w>)
+	SERV.NEWITEM i_memory_ability_m3
+	NEW.TAG.INTINCREASE=50
+	NEW.TAG.DEXINCREASE=50
+	NEW.TIMER=30
+	NEW.EQUIP
+	SERV.NEWITEM i_memory_ability_m3w
+	NEW.TIMER=180
+	NEW.EQUIP
+	SRC.SOUND=snd_SPELL_ARCHPROTECTION
+	SRC.EFFECT=3,i_fx_BLESS_EFFECT,8,16,1
+ELSE
+	SRC.SYSMESSAGE=You can't use that ability for another <SRC.FINDID(i_memory_ability_m3w).TIMER> seconds.
+ENDIF		
+ABILITY
+
+ON=9
+IF !(<SRC.TAG0.LEVEL> > 2)
+	SRC.SYSMESSAGE=This ability cannot be used until you reach level 3.			
+	ABILITY
+	RETURN 1
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_m4w>)
+	SRC.MANA=<SRC.MAXMANA>
+	SERV.NEWITEM i_memory_ability_m4w
+	NEW.TIMER=240
+	NEW.EQUIP
+	SRC.SOUND=snd_SPELL_INVISIBILITY
+	SRC.EFFECT=3,i_fx_HEAL_EFFECT,8,16,1
+ELSE
+	SRC.SYSMESSAGE=You can't use that ability for another <SRC.FINDID(i_memory_ability_m4w).TIMER> seconds.
+ENDIF	
+ABILITY
+	
+ON=10
+IF !(<SRC.TAG0.LEVEL> > 2)
+	SRC.SYSMESSAGE=This ability cannot be used until you reach level 3.			
+	ABILITY
+	RETURN 1
+ENDIF
+IF !(<SRC.RESTEST i_memory_ability_m5w>)
+	SERV.NEWITEM i_memory_ability_m5
+	NEW.TAG.MPINCREASE=<EVAL (<SRC.TAG.MP>/4)>
+	NEW.TIMER=30
+	NEW.EQUIP
+	SERV.NEWITEM i_memory_ability_m5w
+	NEW.TIMER=300
+	NEW.EQUIP
+	SRC.SOUND=05ab
+	SRC.EFFECT=3,i_fx_HEAL_EFFECT,8,16,1
+ELSE
+	SRC.SYSMESSAGE=You can't use that ability for another <SRC.FINDID(i_memory_ability_m5w).TIMER> seconds.
+ENDIF	
+ABILITY
+
+
+[ITEMDEF i_memory_ability_w1]
+ID=02007
+NAME=Warrior Ability 1 Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_w2]
+ID=02007
+NAME=Warrior Ability 2 Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_w3]
+ID=02007
+NAME=Warrior Ability 3 Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_w4]
+ID=02007
+NAME=Warrior Ability 4 Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_w5]
+ID=02007
+NAME=Warrior Ability 5 Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_w1w]
+ID=02007
+NAME=Warrior Ability 1 Wait Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	TOPOBJ.TIMERF 1,ABILITY
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_w2w]
+ID=02007
+NAME=Warrior Ability 2 Wait Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	TOPOBJ.TIMERF 1,ABILITY
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_w3w]
+ID=02007
+NAME=Warrior Ability 3 Wait Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	TOPOBJ.TIMERF 1,ABILITY
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_w4w]
+ID=02007
+NAME=Warrior Ability 4 Wait Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	TOPOBJ.TIMERF 1,ABILITY
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_w5w]
+ID=02007
+NAME=Warrior Ability 5 Wait Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	TOPOBJ.TIMERF 1,ABILITY
+	REMOVE
+	RETURN 1
+
+//// MAGE's ABILITIES
+
+[ITEMDEF i_memory_ability_m1]
+ID=02007
+NAME=Mage Ability 1 Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_m2]
+ID=02007
+NAME=Mage Ability 2 Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_m3]
+ID=02007
+NAME=Mage Ability 3 Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_m4]
+ID=02007
+NAME=Mage Ability 4 Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_m5]
+ID=02007
+NAME=Mage Ability 5 Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_m1w]
+ID=02007
+NAME=Mage Ability 1 Wait Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	TOPOBJ.TIMERF 1,ABILITY
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_m2w]
+ID=02007
+NAME=Mage Ability 2 Wait Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	TOPOBJ.TIMERF 1,ABILITY
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_m3w]
+ID=02007
+NAME=Mage Ability 3 Wait Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	TOPOBJ.TIMERF 1,ABILITY
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_m4w]
+ID=02007
+NAME=Mage Ability 4 Wait Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	TOPOBJ.TIMERF 1,ABILITY
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_m5w]
+ID=02007
+NAME=Mage Ability 5 Wait Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	TOPOBJ.TIMERF 1,ABILITY
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_memory_ability_aegisofgladiator]
+ID=02007
+NAME=Aegis of Gladiator Ability
+TYPE=t_eq_script
+
+ON=@Timer
+	TOPOBJ.TIMERF 1,STATTABLE
+	REMOVE
+	RETURN 1
+	
+[EoF]

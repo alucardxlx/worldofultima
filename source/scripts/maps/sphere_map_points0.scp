@@ -1,0 +1,31 @@
+//****************************************************************************
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: March 29, 2006
+
+VERSION=0.56b
+
+[STARTS]	// new client
+Yew
+The Sturdy Bow
+5280,4019,10,0
+
+[Teleporters]
+///////////////////////////////////////////////////
+/////////////      Ratman cave     ////////////////
+///////////////////////////////////////////////////
+//5977,2548,20,0=5710,418,-15,0
+//5978,2548,20,0=5711,418,-15,0
+//5711,417,-15,0=5978,2547,15,0
+3817,3036,0,0=6054,896,25,0
+3817,3037,0,0=6054,897,25,-10,0
+6055,896,25,0=3818,3036,0,0
+6055,897,25,0=3818,3037,0,0
+
+[EOF]

@@ -1,0 +1,6 @@
+glob:source/libMySQL.dll
+glob:source/sphereSvr.exe
+glob:source/Sphere.ini.bak
+glob:source/scripts/web/
+glob:source/sphere.dic
+glob:source/dbghelp.dll

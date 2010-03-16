@@ -1,0 +1,449 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007; Scripts by : Wolf_CZ
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, January 29, 2006
+//
+VERSION=0.56b
+
+[CHARDEF c_bedston_ericsharp]
+NAME=Eric Sharp
+ID=0190
+CAN=mt_nonmover
+
+TSPEECH=spk_npc_greet_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Bedston
+DESCRIPTION=Eric Sharp
+
+ON=@Create
+	NPC=brain_human
+	TITLE=Guard Captain
+	EVENTS=e_npc_good,e_npc_questgiver
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_armor_iron_greaves
+	ITEM=i_armor_iron_gloves
+	ITEM=i_armor_iron_cuirass
+	ITEM=i_weapon_sharpenedlongsword
+	ITEM=i_shield_woodenshield
+	ITEM=i_clothing_cloak
+	COLOR=colors_black
+
+ON=@Dclick
+	//IF (Q1 nehotov a nezadan) - zadani q1
+	IF (!(<SRC.TAG0.Q1>&01) && !(<SRC.TAG0.Q1C>&01))
+		SRC.QUESTDIALOG 1
+		RETURN 1
+	ENDIF
+	//IF (Q1 hotov a dela se) - splneno, reward
+	IF ((<SRC.TAG0.Q1_1> == 5) && (<SRC.TAG0.Q1>&01))
+		SRC.QUESTCOMPLETE 1
+		SAY=Ah, great, here is your payment. But wait! I have more work for you.
+		RETURN 1
+	ENDIF
+
+	//Q1 HOTOV
+	IF (<SRC.TAG0.Q1C>&01)
+		//IF (Q2 nehotov a nezadan)
+		IF (!(<SRC.TAG0.Q1>&02) && !(<SRC.TAG0.Q1C>&02))
+			SRC.QUESTDIALOG 2
+			RETURN 1
+		ENDIF
+		//IF (Q2 hotov a dela se) - splneno, reward
+		IF ((<SRC.TAG0.Q1_2> == 10) && (<SRC.TAG0.Q1>&02))
+			SRC.QUESTCOMPLETE 2
+			SAY=You did it? Great. Here, take this as your reward.
+			RETURN 1
+		ENDIF
+	ENDIF
+
+	//Q2 HOTOV
+	IF (<SRC.TAG0.Q1C>&02)
+		//IF (Q nehotov a zadan)
+		IF (!(<SRC.TAG0.Q1>&08))
+			SRC.QUESTDIALOG 4
+			RETURN 1
+		ENDIF
+		//IF (Q2 hotov a dela se) - splneno, reward
+		IF ((<SRC.TAG0.Q1>&08) && (<SRC.RESTEST 10 i_quest_deadrat>))
+			SRC.CONSUME 10 i_quest_deadrat
+			SRC.QUESTCOMPLETE 4
+			SAY=Bedston city thanks you for your work. Take this as a reward.
+			RETURN 1
+		ENDIF
+	ENDIF	
+
+
+[CHARDEF c_bedston_grahamthegreat]
+NAME=Graham the Great
+ID=0190
+CAN=mt_nonmover
+
+TSPEECH=spk_npc_greet_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Bedston
+DESCRIPTION=Graham the Great
+
+ON=@Create
+	NPC=brain_human
+	TITLE=Mage Legend
+	EVENTS=e_npc_good,e_npc_questgiver
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_clothing_boots
+	ITEM=i_clothing_shirt
+	COLOR={colors_blue 1 colors_yellow 1 colors_green 1 colors_red 1}
+	ITEM=i_clothing_longpants
+	ITEM=i_clothing_wizardshat
+	COLOR=09e4
+	ITEM=i_clothing_robe
+	COLOR=09e4
+	ITEM=i_clothing_cloak
+	COLOR=0bae
+
+ON=@Dclick
+	//Q5 ZADAN
+	IF (<SRC.TAG0.Q1>&010)
+		IF ((<SRC.RESTEST 1 i_quest_letterforgraham>) && (<SRC.FINDID(i_quest_letterforgraham).LINK> == <SRC.UID>))
+			SRC.CONSUME 1 i_quest_letterforgraham
+			SRC.QUESTCOMPLETE 5
+			SAY=Thank you for your services, brave adventurer. Take this as a reward.
+			RETURN 1
+		ENDIF
+	ENDIF	
+
+	//IF (Q6 nehotov a nezadan + q5 splnen) - zadani q6
+	IF (!(<SRC.TAG0.Q1>&020) && !(<SRC.TAG0.Q1C>&020) && (<SRC.TAG0.Q1C>&010) )
+		SRC.QUESTDIALOG 6
+		RETURN 1
+	ENDIF
+
+[CHARDEF c_bedston_DeckardIronhead]
+NAME=Deckard Ironhead
+ID=0190
+CAN=mt_nonmover
+
+TSPEECH=spk_npc_greet_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Bedston
+DESCRIPTION=Deckard Ironhead
+
+ON=@Create
+	NPC=brain_human
+	TITLE=Adventurer
+	EVENTS=e_npc_good,e_npc_questgiver
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_clothing_boots
+	ITEM=i_clothing_shirt
+	COLOR={colors_blue 1 colors_yellow 1 colors_green 1 colors_red 1}
+	ITEM=i_clothing_longpants
+	ITEM=i_clothing_cloak
+	COLOR=09d9
+
+ON=@Dclick
+	//IF (Q5 nehotov a nezadan) - zadani q5
+	IF (!(<SRC.TAG0.Q1>&010) && !(<SRC.TAG0.Q1C>&010))
+		SRC.QUESTDIALOG 5
+		RETURN 1
+	ENDIF
+
+	//Q6 ZADAN
+	IF (<SRC.TAG0.Q1>&020)
+		IF ((<SRC.RESTEST 1 i_quest_letterfordeckard>) && (<SRC.FINDID(i_quest_letterfordeckard).LINK> == <SRC.UID>))
+			SRC.CONSUME 1 i_quest_letterfordeckard
+			SRC.QUESTCOMPLETE 6
+			SAY=Thank you for your services, brave adventurer. Take this as a reward.
+			RETURN 1
+		ENDIF
+	ENDIF	
+
+
+[CHARDEF c_bedston_AuqustDrewmore]
+NAME=Auqust Drewmore
+ID=0190
+CAN=mt_nonmover
+
+TSPEECH=spk_npc_greet_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Bedston
+DESCRIPTION=Auqust Drewmore
+
+ON=@Create
+	NPC=brain_human
+	TITLE=Old Fool
+	EVENTS=e_npc_good,e_npc_questgiver
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=color_white
+	ITEMNEWBIE=random_facial_hair
+	COLOR=color_white
+
+ON=@NPCRestock
+	ITEM=i_clothing_shoes
+	ITEM=i_clothing_shirt
+	COLOR={colors_blue 1 colors_yellow 1 colors_green 1 colors_red 1}
+	ITEM=i_clothing_longpants
+
+[CHARDEF c_bedston_citizen]
+NAME=#NAMES_HUMANMALE
+ID=0190
+CAN=mt_nonmover
+
+TSPEECH=spk_npc_greet_global
+TSPEECH=spk_npc_citizen_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Bedston
+DESCRIPTION=Bedston Citizen (Man)
+
+ON=@Create
+	NPC=brain_human
+	TITLE=Bedston Citizen
+	EVENTS=e_npc_good
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_clothing_shirt
+	COLOR={colors_blue 1 colors_yellow 1 colors_green 1 colors_red 1}
+	ITEM=i_clothing_longpants
+	COLOR={colors_gray 1 colors_brown 1 colors_black 1}
+	ITEM={i_clothing_boots 3 i_clothing_shoes 2 i_clothing_sandals 1 i_clothing_thighboots 1}
+
+[CHARDEF c_bedston_movingcitizen]
+NAME=#NAMES_HUMANMALE
+ID=0190
+CAN=mt_walk
+
+TSPEECH=spk_npc_greet_global
+TSPEECH=spk_npc_citizen_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Bedston
+DESCRIPTION=Bedston Citizen (Man - Moving)
+
+ON=@Create
+	NPC=brain_human
+	TITLE=Bedston Citizen
+	EVENTS=e_npc_good
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_clothing_shirt
+	COLOR={colors_blue 1 colors_yellow 1 colors_green 1 colors_red 1}
+	ITEM=i_clothing_longpants
+	COLOR={colors_gray 1 colors_brown 1 colors_black 1}
+	ITEM={i_clothing_boots 3 i_clothing_shoes 2 i_clothing_sandals 1 i_clothing_thighboots 1}
+
+[CHARDEF c_bedston_citizenw]
+NAME=#NAMES_HUMANFEMALE
+ID=0191
+CAN=mt_nonmover
+
+TSPEECH=spk_npc_greet_global
+TSPEECH=spk_npc_citizen_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Bedston
+DESCRIPTION=Bedston Citizen (Woman)
+
+ON=@Create
+	NPC=brain_human
+	TITLE=Bedston Citizen
+	EVENTS=e_npc_good
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM={i_clothing_shirt 2 i_clothing_fancyshirt 1}
+	COLOR={colors_blue 1 colors_yellow 1 colors_green 1 colors_red 1}
+	ITEM=i_clothing_longpants
+	COLOR={colors_gray 1 colors_brown 1 colors_black 1}
+	ITEM={i_clothing_boots 1 i_clothing_shoes 2 i_clothing_sandals 2}
+
+
+[CHARDEF c_bedston_guard]
+NAME=#NAMES_HUMANMALE
+ID=0190
+CAN=mt_nonmover
+
+TSPEECH=spk_npc_greet_global
+TSPEECH=spk_npc_citizen_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Bedston
+DESCRIPTION=Bedston Guard (Man)
+
+ON=@Create
+	NPC=brain_human
+	TITLE=Bedston Guard
+	EVENTS=e_npc_good
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_armor_iron_greaves
+	ITEM=i_armor_iron_gloves
+	ITEM={i_armor_iron_cuirass 1 i_clothing_shirt 1}
+	ITEM=i_clothing_cloak
+	COLOR={colors_gray 1 colors_brown 1 colors_black 1}
+	ITEM=i_weapon_ironlongsword
+	ITEM=i_torch
+
+[CHARDEF c_bedston_guardw]
+NAME=#NAMES_HUMANFEMALE
+ID=0191
+CAN=mt_nonmover
+
+TSPEECH=spk_npc_greet_global
+TSPEECH=spk_npc_citizen_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Bedston
+DESCRIPTION=Bedston Guard (Woman)
+
+ON=@Create
+	NPC=brain_human
+	TITLE=Bedston Guard
+	EVENTS=e_npc_good
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_female_hair
+	COLOR=colors_hair
+
+ON=@NPCRestock
+	ITEM=i_armor_iron_greaves
+	ITEM=i_armor_iron_gloves
+	ITEM={i_armor_iron_cuirass 1 i_clothing_shirt 1}
+	ITEM=i_clothing_cloak
+	COLOR={colors_gray 1 colors_brown 1 colors_black 1}
+	ITEM=i_weapon_ironlongsword
+	ITEM=i_torch
+
+[EOF]

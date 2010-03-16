@@ -1,0 +1,83 @@
+//****************************************************************************
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: March 26, 2006
+
+VERSION=0.56b
+
+[AREADEF a_world_0]
+EVENTS=r_default,r_default_rock,r_default_water,r_default_tree,r_default_grass
+NAME=World 0
+GROUP=ALLMAP
+P=3582,1091,0,0
+RECT=0,0,6144,4096,0
+
+[AREADEF a_system_startingroom]
+EVENTS=r_default,r_default_rock,r_default_water,r_default_tree,r_default_grass
+NAME=Start Room
+GROUP=System
+P=5280,4019,10,0
+RECT=5260,4000,5300,4040,0
+
+[AREADEF a_island_arya]
+EVENTS=r_default,r_default_rock,r_default_water,r_default_tree,r_default_grass
+NAME=Arya Island
+GROUP=Island
+P=3906,3080,0,0
+RECT=3870,3122,4140,3320,0
+
+
+// OLD WAB
+
+
+[AREADEF a_island_godrik]
+EVENTS=r_default,r_default_rock,r_default_water,r_default_tree,r_default_grass
+NAME=Godrik Island
+GROUP=Island
+P=3582,1091,0,0
+RECT=3216,704,4504,1720,0
+
+[AREADEF a_town_silverdown]
+EVENTS=r_default,r_default_rock,r_default_water,r_default_tree,r_default_grass
+NAME=Silverdown
+GROUP=Town
+P=3582,1091,0,0
+RECT=3496,1012,3638,1096,0
+
+[ROOMDEF a_town_silverdown_house1]
+EVENTS=r_default,r_default_rock,r_default_water,r_default_tree,r_default_grass
+NAME=House no.1
+GROUP=Silverdown
+FLAGS=region_flag_nodecay
+P=3554,1027,0,0
+RECT=3551,1022,3560,1027,0
+
+[AREADEF a_town_rayford]
+EVENTS=r_default,r_default_rock,r_default_water,r_default_tree,r_default_grass
+NAME=Rayford
+GROUP=Town
+P=3623,1428,0,0
+RECT=3521,1376,3698,1461,0
+
+[AREADEF a_dungeon_testdungeon]
+EVENTS=r_default,r_default_rock,r_default_water,r_default_tree,r_default_grass
+NAME=Dungeon of Darkness
+GROUP=Dungeon
+P=5977,2545,0,0
+RECT=5932,2480,6017,2552,0
+
+//[AREADEF a_gm_wolfstower]
+//EVENTS=r_default,r_default_rock,r_default_water,r_default_tree,r_default_grass
+//NAME=Wolf's Tower
+//GROUP=*01 General
+//P=2565,2091,47,0
+//RECT=2564,2090,2574,2100,0
+//FLAGS=region_flag_nodecay
+
+[EoF]

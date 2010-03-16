@@ -1,0 +1,716 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007; Scripts by : Wolf_CZ
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, January 29, 2006
+//
+VERSION=0.56b
+
+//RATMAN CAVE
+[CHARDEF c_monster_rc_ratman]
+ID=02a
+NAME=Ratman
+CAN=mt_walk
+DAM=1,2
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Ratman cave
+DESCRIPTION=Ratman
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_monster
+	KARMA=-10000
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={50 55}
+	MAXSTAM=200
+	MAXMANA=0
+
+	TAG.LDMG=3
+	TAG.HDMG=7
+	TAG.DAR=20
+
+ON=@NPCRestock
+	ITEM=i_template_monster01
+	ITEM=i_template_ratmancave
+
+[CHARDEF c_monster_rc_ratmanwarrior]
+ID=02c
+NAME=Ratman Warrior
+CAN=mt_walk
+DAM=1,2
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Ratman cave
+DESCRIPTION=Ratman Warrior
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_monster
+	KARMA=-10000
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={65 75}
+	MAXSTAM=200
+	MAXMANA=0
+
+	TAG.LDMG=5
+	TAG.HDMG=9
+	TAG.DAR=20
+
+ON=@NPCRestock
+	ITEM=i_template_monster01
+	ITEM=i_template_ratmancave
+
+[CHARDEF c_monster_rc_ratmanshaman]
+ID=02a
+NAME=Ratman Shaman
+CAN=mt_walk
+DAM=1,2
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Ratman cave
+DESCRIPTION=Ratman Shaman
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_monster
+	KARMA=-10000
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={65 75}
+	MAXSTAM=200
+	MAXMANA=0
+
+	TAG.LDMG=3
+	TAG.HDMG=5
+	TAG.DAR=20
+
+ON=@NPCRestock
+	ITEM=i_template_monster01
+	ITEM=i_template_ratmancave
+
+[CHARDEF c_monster_rc_lordratty]
+ID=02c
+NAME=Lord Ratty
+CAN=mt_walk
+DAM=1,2
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Ratman cave
+DESCRIPTION=Lord Ratty
+
+ON=@Create
+	COLOR=08000|09d9
+	NPC=brain_monster
+	EVENTS=e_monster
+	KARMA=-10000
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={350 400}
+	MAXSTAM=200
+	MAXMANA=0
+
+	TAG.LDMG=8
+	TAG.HDMG=16
+	TAG.DAR=20
+
+ON=@NPCRestock
+	ITEM=i_template_monster01
+	ITEM=i_template_ratmancave
+	ITEM=i_template_boss_lordratty
+
+
+[CHARDEF c_monster_skeleton]
+ID=032
+NAME=Skeleton
+CAN=mt_walk
+DAM=10,20
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Skeleton
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_monster
+	KARMA=-10000
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={30 33}
+	MAXSTAM=200
+	MAXMANA=0
+
+	TAG.LDMG=5
+	TAG.HDMG=7
+	TAG.DAR=20
+
+ON=@NPCRestock
+	ITEM=i_template_monster01
+
+[CHARDEF c_monster_zombie]
+ID=03
+NAME=Zombie
+CAN=mt_walk
+DAM=10,20
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Zombie
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_monster
+	KARMA=-10000
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={40 55}
+	MAXSTAM=200
+	MAXMANA=0
+
+	TAG.LDMG=4
+	TAG.HDMG=8
+	TAG.DAR=20
+
+ON=@NPCRestock
+	ITEM=i_template_monster01
+
+[CHARDEF c_monster_imp]
+ID=027
+NAME=Imp
+CAN=MT_WALK|MT_USEHANDS
+DAM=3,7
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Imp
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={20 30}
+	MAXSTAM=200
+	MAXMANA=200
+
+	MAGERY=100.0
+
+	ITEMNEWBIE=i_spellbook
+	ADDSPELL=s_harm
+
+ON=@Hit
+	NPCCAST s_harm,<SRC.UID>
+	RETURN 1
+
+ON=@Spellcast
+	IF (<ARGN1> < 1000)
+		LOCAL.CAST={1000 1 1010 1 1020 1} //kouzla co castit
+	ENDIF
+	ARGN1=5000 //zrusi puvodni castenou paru/harm
+	ARGN3=35 //doba casteni
+	F_MONSTERCAST <ACT>,<eval <LOCAL.CAST>>,<ARGN2>
+	RETURN 0
+
+ON=@NPCRestock
+	ITEM=i_template_monster01
+	ITEM=i_template_monstermagic01
+
+[CHARDEF c_monster_ghost]
+ID=01a
+NAME=Ghost
+CAN=mt_walk|MT_USEHANDS
+DAM=7,13
+ARMOR=10000
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Ghost
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+	COLOR=color_ethereal //puvodne 09e4
+
+	STR=200
+	DEX=200
+	INT=2000
+
+	MAXHITS={30 40}
+	MAXSTAM=100
+	MAXMANA=200
+
+	TAG.COLDRES=100
+	TAG.POISONRES=100
+
+	MAGERY=100.0
+
+	ITEMNEWBIE=i_spellbook
+	ADDSPELL=s_paralyze
+
+ON=@Spellcast
+	IF (<ARGN1> < 1000)
+		LOCAL.CAST=1010 //kouzla co castit
+	ENDIF
+	ARGN1=5000 //zrusi puvodni castenou paru/harm
+	ARGN3=35 //doba casteni
+	F_MONSTERCAST <ACT>,<eval <LOCAL.CAST>>,<ARGN2>
+	RETURN 0
+
+ON=@NPCRestock
+	ITEM=i_template_monster01
+	ITEM=i_template_monstermagic01
+
+[CHARDEF c_monster_headlesszombie]
+ID=01f
+NAME=Headless Zombie
+CAN=mt_walk
+DAM=12,22
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Headless Zombie
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+	COLOR=07db
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={150 170}
+	MAXSTAM=200
+	MAXMANA=0
+
+	TAG.COLDRES=30
+	TAG.FIRERES=-70
+	TAG.POISONRES=100
+
+ON=@NPCRestock
+	ITEM=i_template_monster01
+
+[CHARDEF c_monster_skeletonguardian]
+ID=032
+NAME=Skeleton Guardian
+CAN=mt_walk
+DAM=15,20
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Skeleton Guardian
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+	COLOR=09cd
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={160 180}
+	MAXSTAM=200
+	MAXMANA=0
+
+	TAG.COLDRES=70
+	TAG.POISONRES=100
+
+ON=@NPCRestock
+	ITEM=i_template_monster02
+
+[CHARDEF c_monster_wraith]
+ID=01a
+NAME=Wraith
+CAN=mt_walk|MT_USEHANDS
+DAM=20,25
+ARMOR=10000
+MOVERATE=50
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Wraith
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+	COLOR=09e5
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={130 160}
+	MAXSTAM=100
+	MAXMANA=200
+
+	TAG.COLDRES=100
+	TAG.POISONRES=100
+
+	MAGERY=100.0
+
+	ITEMNEWBIE=i_spellbook
+	ADDSPELL=s_harm
+
+ON=@Hit
+	NPCCAST 2012,<SRC.UID>
+	RETURN 1
+
+ON=@Spellcast
+	IF (<ARGN1> < 1000)
+		LOCAL.CAST=1012 //kouzla co castit
+	ELSE
+		LOCAL.CAST=2012 //kouzla co castit
+	ENDIF
+	ARGN1=5000 //zrusi puvodni castenou paru/harm
+	ARGN3=35 //doba casteni
+	F_MONSTERCAST <ACT>,<eval <LOCAL.CAST>>,<ARGN2>
+	RETURN 0
+
+ON=@NPCRestock
+	ITEM=i_template_monster02
+	ITEM=i_template_monstermagic02
+
+[CHARDEF c_monster_darkguardian]
+ID=039
+NAME=Dark Guardian
+CAN=mt_walk
+DAM=30,50
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Dark Guardian
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+	COLOR=0ba7
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={450 650}
+	MAXSTAM=200
+	MAXMANA=0
+
+	TAG.COLDRES=70
+	TAG.POISONRES=100
+
+ON=@Hit
+	SRC.SPELLEFFECT 2060,1000
+
+ON=@NPCRestock
+	ITEM=i_template_monster03
+
+[CHARDEF c_monster_goblin]
+ID=07
+NAME=Goblin
+CAN=mt_walk
+DAM=4,8
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Goblin
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000	
+	COLOR=07d5
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={25 30}
+	MAXSTAM=200
+	MAXMANA=0
+
+ON=@NPCRestock
+	ITEM=i_template_monster01
+	ITEM=i_template_rnd_blunt_1
+	ITEM={i_misc_lockpick 1 0 3},{1 2}
+
+[CHARDEF c_monster_goblinskirmisher]
+ID=07
+NAME=Goblin Skirmisher
+CAN=mt_walk
+DAM=9,13
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Goblin Skirmisher
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+	COLOR=084f
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={60 80}
+	MAXSTAM=200
+	MAXMANA=0
+
+ON=@NPCRestock
+	ITEM=i_template_monster01
+	ITEM=i_template_rnd_blunt_1
+	ITEM={i_misc_lockpick 1 0 3},{1 2}
+
+[CHARDEF c_monster_goblinberserker]
+ID=07
+NAME=Goblin Berserker
+CAN=mt_walk
+DAM=19,23
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Goblin Berserker
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+	COLOR=09e5
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={160 180}
+	MAXSTAM=200
+	MAXMANA=0
+
+ON=@NPCRestock
+	ITEM=i_template_monster02
+	ITEM=i_template_rnd_blunt_1
+	ITEM={i_misc_lockpick 1 0 3},{1 2}
+
+[CHARDEF c_monster_goblinshaman]
+ID=011
+NAME=Goblin Shaman
+CAN=mt_walk|MT_USEHANDS
+DAM=10,15
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Goblin Shaman
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+	COLOR=09da
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={60 80}
+	MAXSTAM=100
+	MAXMANA=200
+
+	MAGERY=100.0
+
+	ITEMNEWBIE=i_spellbook
+	ADDSPELL=s_paralyze
+
+ON=@Spellcast
+	IF (<ARGN1> < 1000)
+		LOCAL.CAST={1001 1 1021 1} //kouzla co castit
+	ENDIF
+	ARGN1=5000 //zrusi puvodni castenou paru/harm
+	ARGN3=35 //doba casteni
+	F_MONSTERCAST <ACT>,<eval <LOCAL.CAST>>,<ARGN2>
+	RETURN 0
+
+ON=@NPCRestock
+	ITEM=i_template_monster02
+	ITEM=i_template_monstermagic01
+
+[CHARDEF c_monster_bandit]
+ID=0190
+NAME=Bandit
+CAN=mt_walk|mt_usehands
+DAM=13,23
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Bandit
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+	COLOR=colors_skin
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={130 160}
+	MAXSTAM=200
+	MAXMANA=0
+
+ON=@NPCRestock
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+	ITEM=i_template_monster02
+	ITEM=i_clothing_shoes
+	ITEM={ i_template_rnd_blunt_1 1 i_template_rnd_sword_1 1 }
+	ITEM={ i_armor_iron_greaves 1 i_armor_fur_greaves 1}
+	ITEM={ i_armor_iron_cuirass 1 i_armor_fur_cuirass 1}
+	ITEM={ i_armor_iron_arms 1 0 3 }
+
+[CHARDEF c_monster_banditmage]
+ID=0190
+NAME=Bandit Mage
+CAN=mt_walk|mt_usehands
+DAM=6,12
+ARMOR=100
+
+CATEGORY=*01 Monsters
+SUBSECTION=Normal
+DESCRIPTION=Bandit Mage
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+	COLOR=colors_skin
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={90 120}
+	MAXSTAM=200
+	MAXMANA=0
+
+	MAGERY=100.0
+
+	ITEMNEWBIE=i_spellbook
+	ADDSPELL=s_paralyze
+ON=@Spellcast
+	IF (<ARGN1> < 1000)
+		LOCAL.CAST={1000 1 1001 1} //kouzla co castit
+	ENDIF
+	ARGN1=5000 //zrusi puvodni castenou paru/harm
+	ARGN3=35 //doba casteni
+	F_MONSTERCAST <ACT>,<eval <LOCAL.CAST>>,<ARGN2>
+	RETURN 0
+
+ON=@NPCRestock
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+	ITEM=i_template_monster02
+	ITEM=i_template_monstermagic02
+	ITEM=i_clothing_shoes
+	ITEM={ i_template_rnd_blunt_1 1 i_template_rnd_sword_1 1 0 2}
+	ITEM={ i_armor_iron_greaves 1 i_armor_fur_greaves 4}
+	ITEM={ i_armor_iron_cuirass 1 i_armor_fur_cuirass 4}
+
+//TESTY --- NEPOUZIVAT
+
+[CHARDEF c_monster_mage]
+ID=01
+NAME=Orc Mage - TEST
+CAN=mt_nonmover
+DAM=10,20
+ARMOR=100
+
+ON=@Create
+	NPC=brain_monster
+	EVENTS=e_npc_evil
+	KARMA=-10000
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS=200
+	MAXSTAM=200
+	MAXMANA=5000
+
+	MAGERY=100.0
+
+	ITEMNEWBIE=i_spellbook
+	ADDSPELL=s_flare
+
+ON=@Spellcast
+	IF (<SRC.HITS> < 100)
+		DORAND 2
+		ARGN1 = 3001
+		ARGN1 = 3002
+		ENDDO
+		ACT=<SRC>
+	ELSE
+		DORAND 3
+		ARGN1 = 1000
+		ARGN1 = 1001
+		ARGN1 = 1002
+		ENDDO
+	ENDIF
+	ARGN2 = 0
+    	ARGN3 = <serv.spell.<dargn1>.cast_time>
+	MANA=<MAXMANA>
+     	RETURN 0
+
+[EOF]

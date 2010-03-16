@@ -1,0 +1,239 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007; Scripts by : Wolf_CZ
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, January 29, 2006
+//
+VERSION=0.56b
+
+[TYPEDEF T_JEWELRY]
+ON=@ClientToolTip
+IF (<TAG0.LINK> == 01)
+	LOCAL.TOOLTIP = <def.bfont_lgreen>WILL-BE-LINKED-ON-EQUIP<def.br>
+	LOCAL.TOOLTIP .= <def.bfont_white>Armor: <EVAL <TAG0.ARMOR>><def.br>
+ELSEIF (<TAG0.LINK> == 02)
+	LOCAL.TOOLTIP = <def.bfont_lgreen>WILL-BE-LINKED-ON-PICKUP<def.br>
+	LOCAL.TOOLTIP .= <def.bfont_white>Armor: <EVAL <TAG0.ARMOR>><def.br>
+ELSEIF (<LINK> != 04fffffff)
+	LOCAL.TOOLTIP = <def.bfont_lgreen>Linked with <LINK.NAME><def.br>
+	LOCAL.TOOLTIP .= <def.bfont_white>Armor: <EVAL <TAG0.ARMOR>><def.br>
+ELSE
+	LOCAL.TOOLTIP = Armor: <EVAL <TAG0.ARMOR>><def.br>
+ENDIF
+
+IF (<TAG0.sMINING> > 0)
+	LOCAL.TOOLTIP .= Mining skill +<EVAL <TAG0.sMINING>><def.br>
+ENDIF
+IF (<TAG0.sBLACKSMITHING> > 0)
+	LOCAL.TOOLTIP .= Blacksmithing skill +<EVAL <TAG0.sBLACKSMITHING>><def.br>
+ENDIF
+IF (<TAG0.sTAILORING> > 0)
+	LOCAL.TOOLTIP .= Tailoring skill +<EVAL <TAG0.sTAILORING>><def.br>
+ENDIF
+IF (<TAG0.HITPOINTSINCREASE> > 0)
+	LOCAL.TOOLTIP .= Hit points +<EVAL <TAG0.HITPOINTSINCREASE>><def.br>
+ENDIF
+IF (<TAG0.STAMPOINTSINCREASE> > 0)
+	LOCAL.TOOLTIP .= Stamina points +<EVAL <TAG0.STAMPOINTSINCREASE>><def.br>
+ENDIF
+IF (<TAG0.MANAPOINTSINCREASE> > 0)
+	LOCAL.TOOLTIP .= Mana points +<EVAL <TAG0.MANAPOINTSINCREASE>><def.br>
+ENDIF
+IF (<TAG0.STRINCREASE> > 0)
+	LOCAL.TOOLTIP .= Strength +<EVAL <TAG0.STRINCREASE>><def.br>
+ENDIF
+IF (<TAG0.STRINCREASE> < 0)
+	LOCAL.TOOLTIP .= Strength <EVAL <TAG0.STRINCREASE>><def.br>
+ENDIF
+IF (<TAG0.DEXINCREASE> > 0)
+	LOCAL.TOOLTIP .= Dexterity +<EVAL <TAG0.DEXINCREASE>><def.br>
+ENDIF
+IF (<TAG0.DEXINCREASE> < 0)
+	LOCAL.TOOLTIP .= Dexterity <EVAL <TAG0.DEXINCREASE>><def.br>
+ENDIF
+IF (<TAG0.INTINCREASE> > 0)
+	LOCAL.TOOLTIP .= Intelligence +<EVAL <TAG0.INTINCREASE>><def.br>
+ENDIF
+IF (<TAG0.INTINCREASE> < 0)
+	LOCAL.TOOLTIP .= Intelligence <EVAL <TAG0.INTINCREASE>><def.br>
+ENDIF
+IF (<TAG0.APINCREASE> > 0)
+	LOCAL.TOOLTIP .= Attack power +<EVAL <TAG0.APINCREASE>><def.br>
+ENDIF
+IF (<TAG0.MPINCREASE> > 0)
+	LOCAL.TOOLTIP .= Magic power +<EVAL <TAG0.MPINCREASE>><def.br>
+ENDIF
+IF (<TAG0.CRIT> > 0)
+	LOCAL.TOOLTIP .= Critical chance +<EVAL <TAG0.CRIT>><def.br>
+ENDIF
+IF (<TAG0.CRITPOWER> > 0)
+	LOCAL.TOOLTIP .= Critical power +<EVAL <TAG0.CRITPOWER>><def.br>
+ENDIF
+IF (<TAG0.MAGICCRIT> > 0)
+	LOCAL.TOOLTIP .= Magic Critical chance +<EVAL <TAG0.MAGICCRIT>><def.br>
+ENDIF
+IF (<TAG0.MAGICCRITPOWER> > 0)
+	LOCAL.TOOLTIP .= Magic Critical power +<EVAL <TAG0.MAGICCRITPOWER>><def.br>
+ENDIF
+IF (<TAG0.HITPOINTSPS> > 0)
+	LOCAL.TOOLTIP .= Hitpoints per second +<EVAL <TAG0.HITPOINTSPS>><def.br>
+ENDIF
+IF (<TAG0.STAMPOINTSPS> > 0)
+	LOCAL.TOOLTIP .= Stamina per second +<EVAL <TAG0.STAMPOINTSPS>><def.br>
+ENDIF
+IF (<TAG0.MANAPOINTSPS> > 0)
+	LOCAL.TOOLTIP .= Mana per second +<EVAL <TAG0.MANAPOINTSPS>><def.br>
+ENDIF
+
+IF ((<TAG0.ONLY> == 1)) && !(<SRC.ISEVENT.e_warrior>))
+	LOCAL.TOOLTIP .= <def.BFONT_LRED>Warriors Only<def.br>
+ELSEIF ((<TAG0.ONLY> == 1)) && (<SRC.ISEVENT.e_warrior>))
+	LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Warriors Only<def.br>
+ENDIF
+IF ((<TAG0.ONLY> == 2)) && !(<SRC.ISEVENT.e_mage>))
+	LOCAL.TOOLTIP .= <def.BFONT_LRED>Mages Only<def.br>
+ELSEIF ((<TAG0.ONLY> == 2)) && (<SRC.ISEVENT.e_mage>))
+	LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Mages Only<def.br>
+ENDIF
+
+IF (<TAG0.rBLACKSMITHING> > 0)
+	IF (<TAG0.rBLACKSMITHING> > <SRC.BLACKSMITHING>)
+		LOCAL.TOOLTIP .= <def.BFONT_LRED>Requires <EVAL <TAG0.rBLACKSMITHING>> blacksmithing<def.br>
+	ELSE
+		LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Requires <EVAL <TAG0.rBLACKSMITHING>> blacksmithing<def.br>
+	ENDIF
+ENDIF
+IF (<TAG0.rTAILORING> > 0)
+	IF (<TAG0.rTAILORING> > <SRC.TAILORING>)
+		LOCAL.TOOLTIP .= <def.BFONT_LRED>Requires <EVAL <TAG0.rTAILORING>> tailoring<def.br>
+	ELSE
+		LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Requires <EVAL <TAG0.rTAILORING>> tailoring<def.br>
+	ENDIF
+ENDIF
+
+IF (<TAG0.SPECIAL1> > 0)
+	LOCAL.TOOLTIP .= <def.BFONT_LYELLOW> <TAG.SPECIAL1><def.br>
+ENDIF
+IF (<TAG0.SPECIAL2> > 0)
+	LOCAL.TOOLTIP .= <def.BFONT_LYELLOW> <TAG.SPECIAL2><def.br>
+ENDIF
+IF (<TAG0.SPECIAL3> > 0)
+	LOCAL.TOOLTIP .= <def.BFONT_LYELLOW> <TAG.SPECIAL3><def.br>
+ENDIF
+
+IF (<TAG0.TYPE> == 00)
+	SRC.ADDCLILOC 1042971, <def.BFONT_white><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 01)
+	SRC.ADDCLILOC 1042971, <def.BFONT_magic><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 02)
+	SRC.ADDCLILOC 1042971, <def.BFONT_rare><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 03)
+	SRC.ADDCLILOC 1042971, <def.BFONT_set><def.BIG><NAME>
+ENDIF
+IF (<TAG0.TYPE> == 04)
+	SRC.ADDCLILOC 1042971, <def.BFONT_unique><def.BIG><NAME>
+ENDIF
+
+IF (<ATTR> & 04)
+	LOCAL.TOOLTIP .= <def.BFONT_LGREEN>NEWBIE<def.br>
+ENDIF
+
+IF (<TAG0.LEVEL> > 0)
+	IF (<TAG0.LEVEL> > <SRC.TAG0.LEVEL>)
+		LOCAL.TOOLTIP .= <def.BFONT_LRED>Level <EVAL <TAG0.LEVEL>><def.br>
+	ELSE
+		LOCAL.TOOLTIP .= <def.BFONT_LGREEN>Level <EVAL <TAG0.LEVEL>><def.br>
+	ENDIF
+ENDIF
+
+SRC.ADDCLILOC 1070722, <LOCAL.TOOLTIP>
+
+RETURN 1
+
+[ITEMDEF i_jewelry_copperring]
+ID=0108a
+NAME=Copper Ring
+WEIGHT=1
+TYPE=T_JEWELRY
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Copper Ring
+
+ON=@Create
+	COLOR=color_copper
+
+[ITEMDEF i_jewelry_silverring]
+ID=0108a
+NAME=Silver Ring
+WEIGHT=1
+TYPE=T_JEWELRY
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Silver Ring
+
+ON=@Create
+	COLOR=color_silver	
+
+[ITEMDEF i_jewelry_goldring]
+ID=0108a
+NAME=Gold Ring
+WEIGHT=1
+TYPE=T_JEWELRY
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Gold Ring
+
+ON=@Create
+	COLOR=color_gold
+
+[ITEMDEF i_jewelry_copperbracelet]
+ID=01086
+NAME=Copper Bracelet
+WEIGHT=1
+TYPE=T_JEWELRY
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Copper Bracelet
+
+ON=@Create
+	COLOR=color_copper
+
+[ITEMDEF i_jewelry_silverbracelet]
+ID=01086
+NAME=Silver Bracelet
+WEIGHT=1
+TYPE=T_JEWELRY
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Silver Bracelet
+
+ON=@Create
+	COLOR=color_silver
+
+[ITEMDEF i_jewelry_goldbracelet]
+ID=01086
+NAME=Gold Bracelet
+WEIGHT=1
+TYPE=T_JEWELRY
+
+CATEGORY=*05 Clothing
+SUBSECTION=Default
+DESCRIPTION=Gold Bracelet
+
+ON=@Create
+	COLOR=color_gold
+
+[EOF]

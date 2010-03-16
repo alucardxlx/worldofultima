@@ -1,0 +1,393 @@
+[FUNCTION LEVELUP]
+IF (<TAG.LEVEL> < <ARGN>)
+	TAG.LEVEL=<ARGN>
+	EMOTE=advanced to level <ARGN>!
+	SYSMESSAGE @color_quest You are now level <ARGN>!
+	SOUND 1457
+	RESENDTOOLTIP
+ENDIF
+
+[FUNCTION QUESTACCEPT]
+IF (<ARGN> == 0)
+	SYSMESSAGE=Shit happened!
+ELSEIF (<ARGN> == 1)
+	TAG.Q1 = <TAG0.Q1>|01
+	f_quest_1
+ELSEIF (<ARGN> == 2)
+	TAG.Q1 = <TAG0.Q1>|02
+	f_quest_2
+ELSEIF (<ARGN> == 3)
+	TAG.Q1 = <TAG0.Q1>|04
+	f_quest_3
+ELSEIF (<ARGN> == 4)
+	TAG.Q1 = <TAG0.Q1>|08
+	f_quest_4
+ELSEIF (<ARGN> == 5)
+	TAG.Q1 = <TAG0.Q1>|010
+	f_quest_5
+ELSEIF (<ARGN> == 6)
+	TAG.Q1 = <TAG0.Q1>|020
+	f_quest_6
+ELSEIF (<ARGN> == 7)
+	TAG.Q1 = <TAG0.Q1>|040
+	f_quest_7
+ELSEIF (<ARGN> == 8)
+	TAG.Q1 = <TAG0.Q1>|080
+	f_quest_8
+ENDIF
+SOUND 1461
+QUESTTABLE
+
+[FUNCTION QUESTCOMPLETE]
+IF (<ARGN> == 0)
+	SYSMESSAGE=Shit happened!
+ELSEIF (<ARGN> == 1)
+	TAG0.Q1C = <TAG0.Q1C>|01
+	TAG0.Q1 = <TAG0.Q1>&~01
+	f_quest_1c
+ELSEIF (<ARGN> == 2)
+	TAG0.Q1C = <TAG0.Q1C>|02
+	TAG0.Q1 = <TAG0.Q1>&~02
+	f_quest_2c
+ELSEIF (<ARGN> == 3)
+	TAG0.Q1C = <TAG0.Q1C>|04
+	TAG0.Q1 = <TAG0.Q1>&~04
+	f_quest_3c
+ELSEIF (<ARGN> == 4)
+	TAG0.Q1C = <TAG0.Q1C>|08
+	TAG0.Q1 = <TAG0.Q1>&~08
+	f_quest_4c
+ELSEIF (<ARGN> == 5)
+	TAG0.Q1C = <TAG0.Q1C>|010
+	TAG0.Q1 = <TAG0.Q1>&~010
+	f_quest_5c
+ELSEIF (<ARGN> == 6)
+	TAG0.Q1C = <TAG0.Q1C>|020
+	TAG0.Q1 = <TAG0.Q1>&~020
+	f_quest_6c
+ELSEIF (<ARGN> == 7)
+	TAG0.Q1C = <TAG0.Q1C>|040
+	TAG0.Q1 = <TAG0.Q1>&~040
+	f_quest_7c
+ELSEIF (<ARGN> == 8)
+	TAG0.Q1C = <TAG0.Q1C>|080
+	TAG0.Q1 = <TAG0.Q1>&~080
+	f_quest_8c
+ENDIF
+QUESTTABLE 2
+SOUND 1462
+
+[FUNCTION QUESTUNCOMPLETE],
+IF (<ARGN> == 0)
+	SYSMESSAGE=Shit happened!
+ELSEIF (<ARGN> == 1)
+	TAG0.Q1C = <TAG0.Q1C>&~01
+ELSEIF (<ARGN> == 2)
+	TAG0.Q1C = <TAG0.Q1C>&~02
+ELSEIF (<ARGN> == 3)
+	TAG0.Q1C = <TAG0.Q1C>&~04
+ELSEIF (<ARGN> == 4)
+	TAG0.Q1C = <TAG0.Q1C>&~08
+ELSEIF (<ARGN> == 5)
+	TAG0.Q1C = <TAG0.Q1C>&~010
+ELSEIF (<ARGN> == 6)
+	TAG0.Q1C = <TAG0.Q1C>&~020
+ELSEIF (<ARGN> == 7)
+	TAG0.Q1C = <TAG0.Q1C>&~040
+ELSEIF (<ARGN> == 8)
+	TAG0.Q1C = <TAG0.Q1C>&~080
+ENDIF
+QUESTTABLE 2
+
+
+
+//QUEST 1
+[DEFNAME quest]
+quest.1.name = Rat problem
+quest.1.namec = Rat problem - COMPLETED
+quest.1.desc = Kill 5 rats and return to guard captain in Bedston.
+quest.1.ldesc = Rats ratseverywhere! Kill, kill them and I will pay you. Return to me when you kill 5 rats.
+quest.1.reward = 50 gp
+
+[FUNCTION f_quest_1]
+TAG0.QUEST_2 = 0
+EVENTS +e_quest_1
+
+[FUNCTION f_quest_1c]
+EVENTS -e_quest_1
+TAG0.Q1_1 =
+
+SERV.NEWITEM i_gold,50
+NEW.BOUNCE
+
+[EVENTS e_quest_1]
+ON=@Kill
+	IF (<ARGO.BASEID> == c_animal_rat)
+		IF (<TAG0.Q1_1> < 5)
+			TAG0.Q1_1 += 1
+		ELSE
+			SYSMESSAGE=You killed 5 rats. Return back to guard captain.
+		ENDIF
+	ENDIF
+	SYSMESSAGE=(Rat problem) Rats killed: <EVAL <TAG0.Q1_1>> / 5
+
+
+//QUEST 2
+[DEFNAME quest]
+quest.2.name = Rats evolving
+quest.2.namec = Rats evolving - COMPLETED
+quest.2.desc = Kill 10 ratmans.
+quest.2.ldesc = You managed to kill these rats, maybe you can help us more. Kill 10 evolved rats - ratmans.
+quest.2.reward = 200 gp, random magic weapon
+
+[FUNCTION f_quest_2]
+TAG0.QUEST_2 = 0
+EVENTS +e_quest_2
+
+[FUNCTION f_quest_2c]
+EVENTS -e_quest_2
+TAG0.Q1_2 =
+
+SERV.NEWITEM i_gold,200
+NEW.BOUNCE
+SERV.NEWITEM i_weapon_BedstonGuardLongsword
+NEW.LINK=<SRC.UID>
+NEW.BOUNCE
+
+
+[EVENTS e_quest_2]
+ON=@Kill
+	IF (<ARGO.BASEID> == c_monster_ratman)
+		IF (<TAG0.Q1_2> < 10)
+			TAG0.Q1_2 += 1
+		ELSE
+			SYSMESSAGE=You killed 10 ratmans. Return back to guard captain.
+		ENDIF
+	ENDIF
+	SYSMESSAGE=(Rats evolving) Ratmans killed: <EVAL <TAG0.Q1_2>> / 10
+
+
+//QUEST 3
+[DEFNAME quest]
+quest.3.name = Lost necklace
+quest.3.namec = Lost necklace - COMPLETED
+quest.3.desc = Bring Drewmore's pearl necklace to Auqust Drewmore at Bedston.
+quest.3.ldesc = Bring Drewmore's pearl necklace to Auqust Drewmore at Bedston.
+quest.3.reward = 100 gp, random magic necklace
+
+[FUNCTION f_quest_3]
+
+[FUNCTION f_quest_3c]
+
+
+//QUEST 4
+[DEFNAME quest]
+quest.4.name = Deratization
+quest.4.namec = Deratization - COMPLETED / REPEATABLE
+quest.4.desc = Guard captain will give you some reward for every 10 rat bodies you bring him.
+quest.4.ldesc = Guard captain will give you some reward for every 10 rat bodies you bring him.
+quest.4.reward = 100 gp, random magic low item
+
+[FUNCTION f_quest_4]
+QUESTUNCOMPLETE 4 // REPEATABLE!
+
+[FUNCTION f_quest_4c]
+SERV.NEWITEM i_gold,100
+NEW.BOUNCE
+SERV.NEWITEM i_armor_iron_cuirass
+NEW.M1
+NEW.M1
+NEW.MMUL
+NEW.BOUNCE
+
+//QUEST 5
+[DEFNAME quest]
+quest.5.name = Letter for Graham
+quest.5.namec = Letter for Graham - COMPLETED
+quest.5.desc = Bring letter from Deckard Ironhead to Graham the Great at Magic supplies.
+quest.5.ldesc = Bring letter from Deckard Ironhead to Graham the Great at Magic supplies.
+quest.5.reward = 30 gp, 3 lesser mana potions
+
+[FUNCTION f_quest_5]
+SERV.NEWITEM i_quest_letterforgraham
+NEW.LINK=<UID>
+NEW.BOUNCE
+
+[FUNCTION f_quest_5c]
+SERV.NEWITEM i_gold,30
+NEW.BOUNCE
+
+
+//QUEST 6
+[DEFNAME quest]
+quest.6.name = Letter for Deckard
+quest.6.namec = Letter for Deckard - COMPLETED
+quest.6.desc = Bring response to Deckard Ironhead.
+quest.6.ldesc = Bring response to Deckard Ironhead.
+quest.6.reward = 50 gp, 3 lesser healing potions 
+
+[FUNCTION f_quest_6]
+SERV.NEWITEM i_quest_letterfordeckard
+NEW.LINK=<UID>
+NEW.BOUNCE
+
+[FUNCTION f_quest_6c]
+SERV.NEWITEM i_gold,50
+NEW.BOUNCE
+
+
+//QUEST 7
+
+[FUNCTION f_quest_7]
+
+[FUNCTION f_quest_7c]
+
+
+//QUEST 8
+
+[FUNCTION f_quest_8]
+
+[FUNCTION f_quest_8c]
+
+
+
+[FUNCTION QUESTTABLE]
+tag.tooltip.temp =
+IF (<TOPOBJ.TAG0.Q1> & 01)
+tag.tooltip.temp .= <def.bfont_dblue><def.quest.1.name><def.br>
+tag.tooltip.temp .= <def.bfont_black><def.quest.1.desc><def.br><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1> & 02)
+tag.tooltip.temp .= <def.bfont_dblue><def.quest.2.name><def.br>
+tag.tooltip.temp .= <def.bfont_black><def.quest.2.desc><def.br><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1> & 04)
+tag.tooltip.temp .= <def.bfont_dblue><def.quest.3.name><def.br>
+tag.tooltip.temp .= <def.bfont_black><def.quest.3.desc><def.br><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1> & 08)
+tag.tooltip.temp .= <def.bfont_dblue><def.quest.4.name><def.br>
+tag.tooltip.temp .= <def.bfont_black><def.quest.4.desc><def.br><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1> & 010)
+tag.tooltip.temp .= <def.bfont_dblue><def.quest.5.name><def.br>
+tag.tooltip.temp .= <def.bfont_black><def.quest.5.desc><def.br><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1> & 020)
+tag.tooltip.temp .= <def.bfont_dblue><def.quest.6.name><def.br>
+tag.tooltip.temp .= <def.bfont_black><def.quest.6.desc><def.br><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1> & 040)
+tag.tooltip.temp .= <def.bfont_dblue><def.quest.7.name><def.br>
+tag.tooltip.temp .= <def.bfont_black><def.quest.7.desc><def.br><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1> & 080)
+tag.tooltip.temp .= <def.bfont_dblue><def.quest.8.name><def.br>
+tag.tooltip.temp .= <def.bfont_black><def.quest.8.desc><def.br><def.br>
+ENDIF
+
+tag.tooltip.temp2 =
+IF (<TOPOBJ.TAG0.Q1C> & 01)
+tag.tooltip.temp2 .= <def.bfont_dblue><def.quest.1.namec><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1C> & 02)
+tag.tooltip.temp2 .= <def.bfont_dblue><def.quest.2.namec><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1C> & 04)
+tag.tooltip.temp2 .= <def.bfont_dblue><def.quest.3.namec><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1C> & 08)
+tag.tooltip.temp2 .= <def.bfont_dblue><def.quest.4.namec><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1C> & 010)
+tag.tooltip.temp2 .= <def.bfont_dblue><def.quest.5.namec><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1C> & 020)
+tag.tooltip.temp2 .= <def.bfont_dblue><def.quest.6.namec><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1C> & 040)
+tag.tooltip.temp2 .= <def.bfont_dblue><def.quest.7.namec><def.br>
+ENDIF
+IF (<TOPOBJ.TAG0.Q1C> & 080)
+tag.tooltip.temp2 .= <def.bfont_dblue><def.quest.8.namec><def.br>
+ENDIF
+
+tag.tooltip.temp .= <def.br>
+tag.tooltip.temp2 .= <def.br>
+
+trigger @createtooltip
+dialog d_quests,<ARGN1>
+tag.tooltip.temp =
+tag.tooltip.temp2 =
+
+[dialog d_quests]
+200,150
+page 0
+dialogclose d_quests
+resizepic 0 0 9270 350 380
+checkertrans 6 6 338 138
+resizepic 10 30 9350 330 340
+page 1
+dhtmlgump 15 10 320 15 0 0 <def.bfont_lgray><TOPOBJ.NAME>'s Quests<def.bfonte>
+dhtmlgump 15 35 320 300 0 1 <def.bfont_dgray><TOPOBJ.tag.tooltip.temp><def.bfonte>
+button 155 350 2509 2509 1 0 1
+page 2
+dhtmlgump 15 10 320 15 0 0 <def.bfont_lgray><TOPOBJ.NAME>'s Completed Quests<def.bfonte>
+dhtmlgump 15 35 320 300 0 1 <def.bfont_dgray><TOPOBJ.tag.tooltip.temp2><def.bfonte>
+button 155 350 2509 2509 1 0 2
+//button 260 250 4502 4502 1 0 2
+
+[DIALOG d_quests BUTTON]
+ON=1
+	QUESTTABLE,2
+
+ON=2
+	QUESTTABLE,1
+
+[FUNCTION QUESTDIALOG]
+LOCAL.TEMP=<ARGN1>
+tag.tooltip.temp =
+tag.tooltip.temp .= <def.bfont_white><def.quest.<ARGN1>.ldesc><def.br><def.br>
+//tag.tooltip.temp .= <def.bfont_white>Reward: <def.quest.<ARGN1>.reward><def.br>
+tag.tooltip.temp .= <def.br>
+tag.tooltip.temp2 = <ARGN1>
+tag.tooltip.temp3 = <def.quest.<ARGN1>.name>
+
+trigger @createtooltip
+dialog d_qw
+tag.tooltip.temp =
+tag.tooltip.temp2 =
+tag.tooltip.temp3 =
+
+[dialog d_qw]
+250,150
+resizepic 0 0 2620 300 300
+page 0
+dtext 100 20 color_white <TAG.TOOLTIP.TEMP3>
+dhtmlgump 20 70 270 200 0 0 <def.bfont_white><TOPOBJ.tag.tooltip.temp><def.bfonte>
+button 60 250 247 249 1 0 <EVAL <tag.tooltip.temp2>>
+//button 60 250 247 249 1 0 1
+button 175 250 241 243 1 0 2000
+
+[dialog d_qw BUTTON]
+ON=1
+	SRC.QUESTACCEPT 1
+ON=2
+	SRC.QUESTACCEPT 2
+ON=3
+	SRC.QUESTACCEPT 3
+ON=4
+	SRC.QUESTACCEPT 4
+ON=5
+	SRC.QUESTACCEPT 5
+ON=6
+	SRC.QUESTACCEPT 6
+ON=7
+	SRC.QUESTACCEPT 7
+ON=8
+	SRC.QUESTACCEPT 8
+ON=2000
+	SRC.SYSMESSAGE=You rejected the quest.
+
+
+[EoF]

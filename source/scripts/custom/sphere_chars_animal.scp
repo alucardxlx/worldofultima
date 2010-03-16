@@ -1,0 +1,73 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007; Scripts by : Wolf_CZ
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, January 29, 2006
+//
+VERSION=0.56b
+
+[CHARDEF c_animal_rat]
+ID=0ee
+NAME=Rat
+CAN=mt_walk
+DAM=1,2
+ARMOR=100
+
+CATEGORY=*02 Animals
+SUBSECTION=Normal
+DESCRIPTION=Rat
+
+ON=@Create
+	NPC=brain_animal
+	EVENTS=e_animal
+	KARMA=0
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={50 60}
+	MAXSTAM=200
+	MAXMANA=0
+
+	TAG.LDMG=1
+	TAG.HDMG=5
+	TAG.DAR=20
+
+ON=@NPCRestock
+	ITEM=i_quest_deadrat
+
+[CHARDEF c_animal_dog]
+ID=0d9
+NAME=Dog
+CAN=mt_walk
+DAM=1,2
+ARMOR=100
+
+CATEGORY=*02 Animals
+SUBSECTION=Normal
+DESCRIPTION=Dog
+
+ON=@Create
+	NPC=brain_animal
+	EVENTS=e_animal
+	KARMA=0
+
+	STR=200
+	DEX=200
+	INT=200
+
+	MAXHITS={100 120}
+	MAXSTAM=200
+	MAXMANA=0
+
+	TAG.LDMG=5
+	TAG.HDMG=8
+	TAG.DAR=20
+
+[EOF]

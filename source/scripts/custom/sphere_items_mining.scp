@@ -1,0 +1,495 @@
+[TYPEDEF T_MINING_VEIN]
+ON=@Dclick
+	IF (<DISTANCE> > 2)
+		SRC.SYSMESSAGE=You are too far away!
+		RETURN 1
+	ENDIF
+	IF (<SRC.RESTEST 1 i_memory_genericskill>)
+		SRC.SYSMESSAGE=You can't do that yet!
+		RETURN 1
+	ENDIF
+	IF (<SRC.MINING> < <DEF.MINING.<BASEID>.SKILL>*10)
+		SRC.SYSMESSAGE=You are not skilled enough!
+		RETURN 1
+	ENDIF
+	IF (<SRC.WEAPON.ID> != 0e85)
+		SRC.SYSMESSAGE=Put some pickaxe in your hands!
+		RETURN 1
+	ENDIF
+
+	SRC.ANIM 9
+	SRC.SOUND 293
+	MOREX -= 1
+	IF ((<SRC.MINING> < 1000) && (<R0,1> < 1) && (<SRC.MINING> < ((<DEF.MINING.<BASEID>.SKILL>*10) + 200)))
+		SRC.MINING += 1
+	ENDIF
+	IF ((<R1,100> < <DEF.MINING.<BASEID>.RES1CH>)
+		SERV.NEWITEM <DEF.MINING.<BASEID>.RES1>
+		NEW.BOUNCE
+	ENDIF
+	IF ((<R1,100> < <DEF.MINING.<BASEID>.RES2CH>)
+		SERV.NEWITEM <DEF.MINING.<BASEID>.RES2>
+		NEW.BOUNCE
+	ENDIF
+	IF (<MOREX> == 0)
+		LINK.TIMER=<DEF.MINING.<BASEID>.RESPAWN>
+		REMOVE
+	ENDIF
+	SERV.NEWITEM i_memory_genericskill
+	NEW.TIMER=1
+	NEW.EQUIP
+	RETURN 1
+
+[TYPEDEF T_MINING_ORE]
+ON=@CLIENTTOOLTIP
+	IF (<AMOUNT> > 1)
+		SRC.ADDCLILOC 1042971, <AMOUNT> <NAME>s
+	ELSE
+		SRC.ADDCLILOC 1042971, <NAME>
+	ENDIF
+	RETURN 1
+
+ON=@Dclick
+	IF !(<SRC.ISNEARTYPE T_MINING_FORGE 3>)
+		SRC.SYSMESSAGE=No forge in range!
+		RETURN 1
+	ENDIF
+	IF (<SRC.RESTEST 1 i_memory_genericskill>)
+		SRC.SYSMESSAGE=You can't do that yet!
+		RETURN 1
+	ENDIF
+	IF (<SRC.WEAPON.ID> != 013e3)
+		SRC.SYSMESSAGE=Put some hammer in your hands!
+		RETURN 1
+	ENDIF
+
+	SRC.ANIM 9
+	SRC.SOUND 42
+	IF ((<SRC.MINING> < 1000) && (<R0,1> < 1) && (<SRC.MINING> < ((<DEF.MINING.<BASEID>.SKILL>*10) + 200)))
+		SRC.MINING += 1
+	ENDIF
+	CONSUME 1 <BASEID>
+	SERV.NEWITEM <DEF.MINING.<BASEID>.SMELT>
+	NEW.BOUNCE
+	SERV.NEWITEM i_memory_genericskill
+	NEW.TIMER=1
+	NEW.EQUIP
+	RETURN 1
+
+[TYPEDEF T_MINING_FORGE]
+ON=@Dclick
+	RETURN 1
+
+[ITEMDEF i_memory_genericskill]
+ID=02007
+NAME=Generic Skill Pause Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[MENU MINING_VEINSPAWNER]
+Pick a vein
+ON=0 Copper
+TAG.SPAWN=i_mining_coppervein
+TIMER=1
+ON=0 Iron
+TAG.SPAWN=i_mining_ironvein
+TIMER=1
+ON=0 Silver
+TAG.SPAWN=i_mining_silvervein
+TIMER=1
+ON=0 Gold
+TAG.SPAWN=i_mining_goldvein
+TIMER=1
+ON=0 Blood Rock
+TAG.SPAWN=i_mining_bloodrockvein
+TIMER=1
+ON=0 Black Rock
+TAG.SPAWN=i_mining_blackrockvein
+TIMER=1
+ON=0 Adamantium
+TAG.SPAWN=i_mining_adamantiumvein
+TIMER=1
+
+[ITEMDEF i_mining_veinspawner]
+NAME=Vein Spawner
+ID=01ea7
+TYPE=0
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Vein Spawner
+
+ON=@CREATE
+	COLOR=022
+	ATTR=090
+
+ON=@DCLICK
+	MENU MINING_VEINSPAWNER
+	RETURN 1
+
+ON=@TIMER
+	NAME = Vein Spawner (<SERV.ITEMDEF.<TAG.SPAWN>.NAME>)
+	SERV.NEWITEM <TAG.SPAWN>
+	NEW.LINK=<UID>
+	NEW.P=<P>
+	COLOR=<NEW.COLOR>
+	TIMER=-1
+	RETURN 1
+
+[ITEMDEF i_mining_forge]
+ID=0fb1
+NAME=Forge
+WEIGHT=5000
+TYPE=T_MINING_FORGE
+
+CATEGORY=*06 Skills
+SUBSECTION=Tools
+DESCRIPTION=Forge
+
+ON=@CREATE
+	ATTR=010
+
+[ITEMDEF i_mining_minerspickaxe]
+ID=0e85
+NAME=Miner's Pickaxe
+WEIGHT=5
+TYPE=T_WEAPON_MACE_PICK
+DAM=1,2
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining Tools
+DESCRIPTION=Miner's Pickaxe
+
+ON=@DCLICK
+	EQUIP
+	RETURN 1
+
+[ITEMDEF i_mining_sharpenedpickaxe]
+ID=0e85
+NAME=Sharpened Pickaxe
+WEIGHT=5
+TYPE=T_WEAPON_MACE_PICK
+DAM=1,2
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining Tools
+DESCRIPTION=Sharpened Pickaxe
+
+ON=@CREATE
+	COLOR=03c1
+	TAG.sMINING=50
+
+ON=@DCLICK
+	EQUIP
+	RETURN 1
+
+[ITEMDEF i_mining_dwarfspickaxe]
+ID=0e85
+NAME=Dwarf's Pickaxe
+WEIGHT=5
+TYPE=T_WEAPON_MACE_PICK
+DAM=1,2
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining Tools
+DESCRIPTION=Dwarf's Pickaxe
+
+ON=@CREATE
+	COLOR=0156
+	TAG.sMINING=100
+
+ON=@DCLICK
+	EQUIP
+	RETURN 1
+
+[ITEMDEF i_mining_coppervein]
+ID=01772
+NAME=Copper Vein
+WEIGHT=5000
+TYPE=T_MINING_VEIN
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Copper Vein
+
+ON=@CREATE
+	ATTR=010
+	COLOR=color_copper
+	MOREX={3 5}
+
+[ITEMDEF i_mining_copperore]
+ID=019b9
+NAME=Copper Ore
+WEIGHT=5
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Copper Ore
+
+ON=@CREATE
+	COLOR=color_copper
+
+[ITEMDEF i_mining_copperingot]
+ID=01bef
+NAME=Copper Ingot
+WEIGHT=2
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Copper Ingot
+
+ON=@CREATE
+	COLOR=color_copper
+
+[ITEMDEF i_mining_ironvein]
+ID=01772
+NAME=Iron Vein
+WEIGHT=5000
+TYPE=T_MINING_VEIN
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Iron Vein
+
+ON=@CREATE
+	ATTR=010
+	COLOR=color_iron
+	MOREX={3 5}
+
+[ITEMDEF i_mining_ironore]
+ID=019b9
+NAME=Iron Ore
+WEIGHT=5
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Iron Ore
+
+ON=@CREATE
+	COLOR=color_iron
+
+[ITEMDEF i_mining_ironingot]
+ID=01bef
+NAME=Iron Ingot
+WEIGHT=2
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Iron Ingot
+
+ON=@CREATE
+	COLOR=color_iron
+
+[ITEMDEF i_mining_silvervein]
+ID=01772
+NAME=Silver Vein
+WEIGHT=5000
+TYPE=T_MINING_VEIN
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Silver Vein
+
+ON=@CREATE
+	ATTR=010
+	COLOR=color_silver
+	MOREX={3 4}
+
+[ITEMDEF i_mining_silverore]
+ID=019b9
+NAME=Silver Ore
+WEIGHT=5
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Silver Ore
+
+ON=@CREATE
+	COLOR=color_silver
+
+[ITEMDEF i_mining_silveringot]
+ID=01bef
+NAME=Silver Ingot
+WEIGHT=2
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Silver Ingot
+
+ON=@CREATE
+	COLOR=color_silver
+
+[ITEMDEF i_mining_goldvein]
+ID=01772
+NAME=Gold Vein
+WEIGHT=5000
+TYPE=T_MINING_VEIN
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Gold Vein
+
+ON=@CREATE
+	ATTR=010
+	COLOR=color_gold
+	MOREX={3 4}
+
+[ITEMDEF i_mining_goldore]
+ID=019b9
+NAME=Gold Ore
+WEIGHT=5
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Gold Ore
+
+ON=@CREATE
+	COLOR=color_gold
+
+[ITEMDEF i_mining_goldingot]
+ID=01bef
+NAME=Gold Ingot
+WEIGHT=2
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Gold Ingot
+
+ON=@CREATE
+	COLOR=color_gold
+
+[ITEMDEF i_mining_bloodrockvein]
+ID=01772
+NAME=Blood Rock Vein
+WEIGHT=5000
+TYPE=T_MINING_VEIN
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Blood Rock Vein
+
+ON=@CREATE
+	ATTR=010
+	COLOR=color_bloodrock
+	MOREX={2 4}
+
+[ITEMDEF i_mining_bloodrockore]
+ID=019b9
+NAME=Blood Rock Ore
+WEIGHT=5
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Blood Rock Ore
+
+ON=@CREATE
+	COLOR=color_bloodrock
+
+[ITEMDEF i_mining_bloodrockingot]
+ID=01bef
+NAME=Blood Rock Ingot
+WEIGHT=2
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Blood Rock Ingot
+
+ON=@CREATE
+	COLOR=color_bloodrock
+
+[ITEMDEF i_mining_blackrockvein]
+ID=01772
+NAME=Black Rock Vein
+WEIGHT=5000
+TYPE=T_MINING_VEIN
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Black Rock Vein
+
+ON=@CREATE
+	ATTR=010
+	COLOR=color_blackrock
+	MOREX={2 4}
+
+[ITEMDEF i_mining_blackrockore]
+ID=019b9
+NAME=Black Rock Ore
+WEIGHT=5
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Black Rock Ore
+
+ON=@CREATE
+	COLOR=color_blackrock
+
+[ITEMDEF i_mining_blackrockingot]
+ID=01bef
+NAME=Black Rock Ingot
+WEIGHT=2
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Black Rock Ingot
+
+ON=@CREATE
+	COLOR=color_blackrock
+
+[ITEMDEF i_mining_adamantiumvein]
+ID=01772
+NAME=Adamantium Vein
+WEIGHT=5000
+TYPE=T_MINING_VEIN
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Adamantium Vein
+
+ON=@CREATE
+	ATTR=010
+	COLOR=color_adamantium
+	MOREX={2 3}
+
+[ITEMDEF i_mining_adamantiumore]
+ID=019b9
+NAME=Adamantium Ore
+WEIGHT=5
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Adamantium Ore
+
+ON=@CREATE
+	COLOR=color_adamantium
+
+[ITEMDEF i_mining_adamantiumingot]
+ID=01bef
+NAME=Adamantium Ingot
+WEIGHT=2
+TYPE=T_MINING_ORE
+
+CATEGORY=*06 Skills
+SUBSECTION=Mining
+DESCRIPTION=Adamantium Ingot
+
+ON=@CREATE
+	COLOR=color_adamantium
+
+[EoF]

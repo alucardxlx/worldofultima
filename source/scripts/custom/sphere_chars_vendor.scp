@@ -1,0 +1,165 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007; Scripts by : Wolf_CZ
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, January 29, 2006
+//
+VERSION=0.56b
+
+[SPEECH spk_npc_vendor_global] 
+ON=Koupit
+ON=Kup
+ON=Nakupovat
+ON=Buy
+	BUY
+
+ON=Sell
+ON=Prodat
+ON=Prodavat
+ON=Koupis
+	SELL
+
+[SPEECH spk_npc_banker_global] 
+ON=Storage*
+ON=Bank*
+	IF (<DISTANCE> < 7)
+		SAY=Okay
+		BANK
+	ELSE
+		SAY=Whaaat?
+	ENDIF
+
+[CHARDEF c_vendor_banker]
+NAME=#NAMES_HUMANMALE
+ID=0190
+CAN=mt_nonmover
+
+TSPEECH=spk_npc_greet_global
+TSPEECH=spk_npc_banker_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Vendor
+DESCRIPTION=Banker
+
+ON=@Create
+	NPC=brain_banker
+	EVENTS=e_npc_good,e_npc_vendor
+	TITLE=Banker
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_clothing_shirt
+	COLOR={colors_blue 1 colors_yellow 1 colors_green 1 colors_red 1}
+	ITEM=i_clothing_longpants
+	COLOR={colors_gray 1 colors_brown 1 colors_black 1}
+	ITEM={i_clothing_boots 3 i_clothing_shoes 2 i_clothing_sandals 1 i_clothing_thighboots 1}
+
+[CHARDEF c_vendor_cook]
+NAME=#NAMES_HUMANMALE
+ID=0190
+CAN=mt_nonmover
+
+TSPEECH=spk_npc_greet_global
+TSPEECH=spk_npc_vendor_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Vendor
+DESCRIPTION=The Cook
+
+ON=@Create
+	NPC=brain_vendor
+	TITLE=The Cook
+	EVENTS=e_npc_good,e_npc_vendor
+	TAG.VENDORMARKUP=-15
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+
+ON=@NPCRestock
+	ITEM=i_clothing_shirt
+	COLOR=colors_all
+	ITEM=i_clothing_longpants
+	COLOR=colors_all
+	ITEM=i_clothing_shoes
+
+	SELL=template_vendor_cook_s
+	BUY=template_vendor_cook_b
+
+[CHARDEF c_vendor_mage]
+NAME=#NAMES_HUMANMALE
+ID=0190
+CAN=mt_nonmover
+
+TSPEECH=spk_npc_greet_global
+TSPEECH=spk_npc_vendor_global
+
+TEVENTS=e_Human_HearUnk
+TEVENTS=e_Human_Refuse
+TEVENTS=e_Human_Environ
+
+CATEGORY=*03 Town
+SUBSECTION=Vendor
+DESCRIPTION=The Mage
+
+ON=@Create
+	NPC=brain_vendor
+	TITLE=The Mage
+	EVENTS=e_npc_good,e_npc_vendor
+	TAG.VENDORMARKUP=-15
+
+	FLAGS=statf_invul
+	STR=100
+	DEX=100
+	INT=100
+	COLOR=colors_skin
+
+	ITEMNEWBIE=random_male_hair
+	COLOR=colors_hair
+	ITEMNEWBIE=random_facial_hair
+	COLOR=match_hair
+
+ON=@NPCRestock
+	ITEM=i_clothing_shirt
+	COLOR=colors_all
+	ITEM=i_clothing_robe
+	COLOR=colors_all
+	ITEM=i_clothing_longpants
+	COLOR=colors_all
+	ITEM=i_clothing_shoes
+
+	SELL=template_vendor_mage_s
+	BUY=template_vendor_mage_b
+
+[EOF]

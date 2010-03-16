@@ -1,0 +1,39 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007; Scripts by : Wolf_CZ
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, January 29, 2006
+//
+VERSION=0.56b
+
+[SPEECH spk_npc_greet_global] 
+ON=Hi
+ON=Hey
+ON=Hello
+ON=Ahoj
+ON=Nazdar
+ON=Cau
+ON=Hoj
+ON=Zdravim
+	DORAND 4
+		SAY=Hello
+		SAY=Good day
+		SAY=Heya
+		SAY=Nice to meet you
+	ENDDO
+
+ON=Fuck
+ON=Pico
+ON=Kurva
+ON=Zmrde
+ON=Hajzle
+ON=Curaku
+	SAY=Don't be rude, would you be that kind?
+
+
+[EoF]

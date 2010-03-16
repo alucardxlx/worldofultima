@@ -1,0 +1,278 @@
+[TYPEDEF T_ALCHEMY_POTION]
+ON=@Dclick
+	IF (<SRC.RESTEST 1 i_memory_potionpause>)
+		SRC.SYSMESSAGE=You can't drink any potion for another <SRC.FINDID(i_memory_potionpause).TIMER> seconds.
+		RETURN 1
+	ENDIF
+	IF (<TDATA1> == 1)
+		IF (<SRC.HITS> < <SRC.MAXHITS>)
+			SRC.HITS += {<TDATA2> <TDATA3>}
+			IF (<SRC.HITS> > <SRC.MAXHITS>)
+				SRC.HITS = <SRC.MAXHITS>
+			ENDIF
+		ENDIF
+	ENDIF
+	IF (<TDATA1> == 2)
+		IF (<SRC.MANA> < <SRC.MAXMANA>)
+			SRC.MANA += {<TDATA2> <TDATA3>}
+			IF (<SRC.MANA> > <SRC.MAXMANA>)
+				SRC.MANA = <SRC.MAXMANA>
+			ENDIF
+		ENDIF
+	ENDIF
+	IF (<TDATA1> == 3)
+		IF (<SRC.HITS> < <SRC.MAXHITS>)
+			SRC.HITS += {<TDATA2> <TDATA3>}
+			IF (<SRC.HITS> > <SRC.MAXHITS>)
+				SRC.HITS = <SRC.MAXHITS>
+			ENDIF
+		ENDIF
+		IF (<SRC.MANA> < <SRC.MAXMANA>)
+			SRC.MANA += {<TDATA2> <TDATA3>}
+			IF (<SRC.MANA> > <SRC.MAXMANA>)
+				SRC.MANA = <SRC.MAXMANA>
+			ENDIF
+		ENDIF
+	ENDIF
+	SRC.CONSUME = 1 <BASEID>
+	SRC.SOUND=031
+	SRC.ANIM=34
+	SERV.NEWITEM i_memory_potionpause
+	NEW.TIMER=60
+	NEW.EQUIP
+	RETURN 1
+
+[ITEMDEF i_memory_potionpause]
+ID=02007
+NAME=Potion Pause Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_alchemy_lesserhealingpotion]
+ID=0f0e
+NAME=Lesser Healing Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=1
+TDATA2=80
+TDATA3=140
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Lesser Healing Potion
+
+ON=@Create
+	COLOR=0ec
+
+[ITEMDEF i_alchemy_minorhealingpotion]
+ID=0f0e
+NAME=Minor Healing Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=1
+TDATA2=160
+TDATA3=280
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Minor Healing Potion
+
+ON=@Create
+	COLOR=0eb
+
+[ITEMDEF i_alchemy_healingpotion]
+ID=0f0e
+NAME=Healing Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=1
+TDATA2=320
+TDATA3=560
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Healing Potion
+
+ON=@Create
+	COLOR=0ea
+
+[ITEMDEF i_alchemy_greaterhealingpotion]
+ID=0f0e
+NAME=Greater Healing Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=1
+TDATA2=640
+TDATA3=1020
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Greater Healing Potion
+
+ON=@Create
+	COLOR=0e9
+
+[ITEMDEF i_alchemy_greathealingpotion]
+ID=0f0e
+NAME=Great Healing Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=1
+TDATA2=1080
+TDATA3=2040
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Great Healing Potion
+
+ON=@Create
+	COLOR=0e8
+
+[ITEMDEF i_alchemy_legendaryhealingpotion]
+ID=0f0e
+NAME=Legendary Healing Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=1
+TDATA2=2160
+TDATA3=4080
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Legendary Healing Potion
+
+ON=@Create
+	COLOR=09d9
+
+//Mana potions
+
+[ITEMDEF i_alchemy_lessermanapotion]
+ID=0f0e
+NAME=Lesser Mana Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=2
+TDATA2=80
+TDATA3=140
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Lesser Mana Potion
+
+ON=@Create
+	COLOR=0128
+
+[ITEMDEF i_alchemy_minormanapotion]
+ID=0f0e
+NAME=Minor Mana Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=2
+TDATA2=160
+TDATA3=280
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Minor Mana Potion
+
+ON=@Create
+	COLOR=0127
+
+[ITEMDEF i_alchemy_manapotion]
+ID=0f0e
+NAME=Mana Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=2
+TDATA2=320
+TDATA3=560
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Mana Potion
+
+ON=@Create
+	COLOR=0126
+
+[ITEMDEF i_alchemy_greatermanapotion]
+ID=0f0e
+NAME=Greater Mana Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=2
+TDATA2=640
+TDATA3=1020
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Greater Mana Potion
+
+ON=@Create
+	COLOR=0125
+
+[ITEMDEF i_alchemy_greatmanapotion]
+ID=0f0e
+NAME=Great Mana Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=2
+TDATA2=1080
+TDATA3=2040
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Great Mana Potion
+
+ON=@Create
+	COLOR=0124
+
+[ITEMDEF i_alchemy_legendarymanapotion]
+ID=0f0e
+NAME=Legendary Mana Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=2
+TDATA2=2160
+TDATA3=4080
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Legendary Mana Potion
+
+ON=@Create
+	COLOR=09cc
+
+
+[ITEMDEF i_alchemy_rejuvenationpotion]
+ID=0f0e
+NAME=Rejuvenation Potion
+WEIGHT=1
+TYPE=T_ALCHEMY_POTION
+TDATA1=3
+TDATA2=160
+TDATA3=280
+VALUE=1
+
+CATEGORY=*06 Skills
+SUBSECTION=Alchemy
+DESCRIPTION=Rejuvenation Potion
+
+ON=@Create
+	COLOR=019e
+
+[EoF]

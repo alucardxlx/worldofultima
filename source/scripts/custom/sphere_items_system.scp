@@ -1,0 +1,374 @@
+[ITEMDEF i_system_persecond]
+ID=02007
+NAME=Per Second Script
+TYPE=t_eq_script
+
+ON=@Create
+	COLOR=02
+
+ON=@Timer
+	IF (<TOPOBJ.ACTION> == -1)
+		//REGEN
+		IF (<TOPOBJ.HITS> < <TOPOBJ.MAXHITS>)
+			TOPOBJ.HITS += <TOPOBJ.TAG0.HITPOINTSPS>
+			IF (<TOPOBJ.HITS> > <TOPOBJ.MAXHITS>)
+				TOPOBJ.HITS = <TOPOBJ.MAXHITS>
+			ENDIF
+		ENDIF
+		IF (<TOPOBJ.STAM> < <TOPOBJ.MAXSTAM>)
+			TOPOBJ.STAM += <TOPOBJ.TAG0.STAMPOINTSPS>
+			IF (<TOPOBJ.STAM> > <TOPOBJ.MAXSTAM>)
+				TOPOBJ.STAM = <TOPOBJ.MAXSTAM>
+			ENDIF
+		ENDIF
+		IF (<TOPOBJ.MANA> < <TOPOBJ.MAXMANA>)
+			TOPOBJ.MANA += <TOPOBJ.TAG0.MANAPOINTSPS>
+			IF (<TOPOBJ.MANA> > <TOPOBJ.MAXMANA>)
+				TOPOBJ.MANA = <TOPOBJ.MAXMANA>
+			ENDIF
+		ENDIF
+		IF (<TOPOBJ.HITS> > <TOPOBJ.MAXHITS>)
+			TOPOBJ.HITS -= 1
+		ENDIF
+		IF (<TOPOBJ.STAM> > <TOPOBJ.MAXSTAM>)
+			TOPOBJ.STAM -= 1
+		ENDIF
+		IF (<TOPOBJ.MANA> > <TOPOBJ.MAXMANA>)
+			TOPOBJ.MANA -= 1
+		ENDIF
+	ENDIF
+	TIMER = 1
+	RETURN 1
+
+[ITEMDEF i_system_stoneofclasspick]
+ID=01184
+NAME=Stone of Classpick
+WEIGHT=0
+TYPE=T_NORMAL
+
+CATEGORY=*01 GM
+SUBSECTION=Other
+DESCRIPTION=Stone of Classpick
+
+ON=@CREATE
+	ATTR=010
+	COLOR=09d9
+
+ON=@DCLICK
+	SDIALOG d_classpick
+	RETURN 1
+
+[DIALOG d_classpick]
+0,0
+nomove
+page 0
+resizepic 240 170 2620 300 270
+dtext 310 282 36 Warrior
+dtext 430 283 36 Mage
+dtext 312 205 1358 Choose your way,
+dtext 375 231 1358 your destiny...
+button 306 308 5585 5585 1 0 1
+button 416 310 5569 5569 1 0 2
+
+
+[DIALOG d_classpick BUTTON]
+onbutton=1
+IF !((<SRC.ISEVENT.e_warrior>) || (<SRC.ISEVENT.e_mage>))
+	SRC.SAY Welcome in World of Ultima, Young Warrior.
+	SRC.ACCOUNT.RESDISP=5
+	SRC.EVENTS=e_player,e_warrior
+	SRC.ALLSKILLS=0
+	SRC.SWORDSMANSHIP=1.0
+	SRC.FENCING=1.0
+	SRC.MACEFIGHTING=1.0
+	SRC.MAGERY=1.0
+	SRC.FISHING=1.0
+	SRC.MINING=1.0
+	SRC.BLACKSMITHING=1.0
+	SRC.TAILORING=1.0
+	SRC.OSTR=150
+	SRC.STR=150
+	SRC.HITS=100
+	SRC.ODEX=100
+	SRC.DEX=100
+	SRC.STAM=100
+	SRC.OINT=75
+	SRC.INT=75
+	SRC.MANA=75
+	SRC.TITLE=The Warrior
+	SRC.TAG0.LEVEL=1
+
+	IF (<SRC.BODY> == c_elf_male)
+		SRC.BODY=c_man
+		SRC.OBODY=c_man
+	ELSE
+		SRC.BODY=c_woman
+		SRC.OBODY=c_woman
+	ENDIF
+
+	SRC.GO a_island_arya
+
+	SERV.NEWITEM i_gold
+	NEW.AMOUNT 10
+	NEW.BOUNCE
+	SERV.NEWITEM i_clothing_shirt
+	NEW.BOUNCE
+	SERV.NEWITEM i_clothing_longpants
+	NEW.BOUNCE
+	SERV.NEWITEM i_clothing_boots
+	NEW.BOUNCE
+	SERV.NEWITEM i_weapon_peasantsword
+	NEW.BOUNCE	
+	SERV.NEWITEM i_system_tomeofportal
+	NEW.BOUNCE
+
+	SERV.NEWITEM i_system_persecond
+	NEW.TIMER=1
+	NEW.EQUIP
+
+	SRC.TAG.HITPOINTSPS = 3
+	SRC.TAG.STAMPOINTSPS = 2
+	SRC.TAG.MANAPOINTSPS = 1
+
+	SRC.TIMERF 1, RESENDTOOLTIP
+	SRC.TIMERF 1, ABILITY
+	SRC.TIMERF 1, STATTABLE
+ELSE
+	SRC.SYSMESSAGE=Jiz mas vybrane povolani.
+ENDIF
+
+onbutton=2
+IF !((<SRC.ISEVENT.e_warrior>) || (<SRC.ISEVENT.e_mage>))
+	SRC.SAY Welcome in World of Ultima, Young Mage.
+	SRC.ACCOUNT.RESDISP=5
+	SRC.EVENTS=e_player,e_mage
+	SRC.ALLSKILLS=0
+	SRC.SWORDSMANSHIP=1.0
+	SRC.FENCING=1.0
+	SRC.MACEFIGHTING=1.0
+	SRC.MAGERY=1.0
+	SRC.FISHING=1.0
+	SRC.MINING=1.0
+	SRC.BLACKSMITHING=1.0
+	SRC.TAILORING=1.0
+	SRC.OSTR=75
+	SRC.STR=75
+	SRC.HITS=75
+	SRC.ODEX=100
+	SRC.DEX=100
+	SRC.STAM=100
+	SRC.OINT=150
+	SRC.INT=150
+	SRC.MANA=150
+	SRC.TITLE=The Mage
+	SRC.TAG0.LEVEL=1
+
+	IF (<SRC.BODY> == c_elf_male)
+		SRC.BODY=c_man
+		SRC.OBODY=c_man
+	ELSE
+		SRC.BODY=c_woman
+		SRC.OBODY=c_woman
+	ENDIF
+
+	SRC.GO a_island_arya
+
+	SERV.NEWITEM i_gold
+	NEW.AMOUNT 10
+	NEW.BOUNCE
+	SERV.NEWITEM i_clothing_shirt
+	NEW.BOUNCE
+	SERV.NEWITEM i_clothing_longpants
+	NEW.BOUNCE
+	SERV.NEWITEM i_clothing_boots
+	NEW.BOUNCE
+	SERV.NEWITEM i_weapon_peasantsword
+	NEW.BOUNCE
+	SERV.NEWITEM i_system_tomeofportal
+	NEW.BOUNCE
+
+	SERV.NEWITEM i_system_persecond
+	NEW.TIMER=1
+	NEW.EQUIP
+
+	SRC.TAG.HITPOINTSPS = 1
+	SRC.TAG.STAMPOINTSPS = 2
+	SRC.TAG.MANAPOINTSPS = 3
+
+	SRC.TIMERF 1, RESENDTOOLTIP
+	SRC.TIMERF 1, ABILITY
+	SRC.TIMERF 1, STATTABLE
+ELSE
+	SRC.SYSMESSAGE=Jiz mas vybrane povolani.
+ENDIF
+
+[ITEMDEF i_system_teleportrune]
+ID=01f14
+NAME=Teleport Rune (blank)
+WEIGHT=0
+TYPE=T_TELEPORT_RUNE
+
+CATEGORY=*01 GM
+SUBSECTION=Teleport
+DESCRIPTION=Teleport Rune (blank)
+
+ON=@Create
+	COLOR=0128
+
+[ITEMDEF i_system_teleport]
+ID=0181d
+NAME=Teleport (blank)
+WEIGHT=0
+TYPE=T_TELEPORT_GUARDED
+
+CATEGORY=*01 GM
+SUBSECTION=Teleport
+DESCRIPTION=Teleport (blank)
+
+ON=@Create
+	ATTR=010
+	COLOR=0128
+
+[TYPEDEF T_TELEPORT_RUNE]
+ON=@Dclick
+	IF ((<MOREX> == 0) && (<SRC.ISPLAYER>))
+		MOREP=<SRC.P>
+		NAME=Teleport Rune - <REGION.NAME>
+		COLOR=047e
+	ELSE
+		SRC.GO=<MOREP>¨
+	ENDIF
+	RETURN 1
+
+[TYPEDEF T_TELEPORT_GATE]
+ON=@Dclick
+	IF ((<MOREX> == 0) && (<SRC.ISPLAYER>))
+		MOREP=<SRC.P>
+		NAME=Teleport
+		COLOR=047e
+	ELSE
+	RETURN 1
+
+ON=@Step
+	SRC.GO=<MOREP>
+
+[TYPEDEF T_TELEPORT_GUARDED]
+ON=@Dclick
+	IF ((<MOREX> == 0) && (<SRC.ISPLAYER>) && (<SRC.ISGM>)
+		MOREP=<SRC.P>
+		NAME=Teleport
+		COLOR=047e
+		SRC.SYSMESSAGE=Nastaveno, dalsim poklikem muzete vybrat hlidace.
+		RETURN 1
+	ELSE
+	IF ((<LINK> == 04fffffff) && (<SRC.ISGM>)
+		SRC.SYSMESSAGE=Vyber spawn hlidace.
+		TARGET
+		RETURN 1
+	ENDIF
+	RETURN 1
+
+ON=@Targon_Item
+	LINK=<SRC.TARG.UID>
+	SRC.SYSMESSAGE=Slinkovano se spawnem <LINK.MORE1>.
+	RETURN 1
+
+ON=@Step
+	IF (!(<LINK.MORE2> == 0) && (<isempty <TAG.TEXT>>))
+		SRC.SAY=Nejdrive musis zabit hlidace.	
+		RETURN 1
+	ENDIF
+	IF (!(<LINK.MORE2> == 0))
+		SRC.SAY=<TAG0.TEXT>
+		RETURN 1
+	ENDIF
+	IF (<SRC.ISPLAYER>)
+		SRC.GO=<MOREP>
+	ENDIF
+	RETURN 1
+
+//MORE = timer
+//MORE2 = 1 - movecheck
+[ITEMDEF i_system_tomeofportalmemory]
+ID=02007
+NAME=Teleport Memory
+TYPE=t_eq_script
+
+ON=@Timer
+	IF (<MORE> > 1)
+		IF (<MORE2> > 0)
+			IF ((<TAG.PX> != <TOPOBJ.P.X>) || (<TAG.PY> != <TOPOBJ.P.Y>))
+				TOPOBJ.MESSAGE=You moved. Teleport cancelled.
+				REMOVE
+			ELSE
+				MORE -= 1
+				TIMER = 1
+			ENDIF
+		ELSE
+			MORE -= 1
+			TIMER = 1
+		ENDIF
+	ELSEIF (<MORE> == 1)
+		TOPOBJ.GO = <MOREP>
+		TIMER=1800
+		MORE=-1
+	ELSE
+		REMOVE
+	ENDIF
+	RETURN 1
+
+[TYPEDEF t_tomeofportal]
+On=@Dclick
+	IF (<SRC.REGION.FLAGS>&04)
+		SRC.SYSMESSAGE=You can't teleport from here.
+		RETURN 1
+	ENDIF
+	IF (<SRC.RESTEST i_system_tomeofportalmemory>)
+		SRC.SYSMESSAGE=You can't teleport yet.
+		RETURN 1
+	ENDIF
+	SRC.MENU M_TOMEOFPORTAL
+	RETURN 1
+
+[ITEMDEF i_system_tomeofportal]
+ID=0e3b
+TYPE=t_tomeofportal
+NAME=Tome of Portal
+
+CATEGORY=*01 GM
+SUBSECTION=Teleport
+DESCRIPTION=Tome of Portal
+
+On=@Create
+	COLOR=025
+	ATTR=attr_newbie
+
+[MENU M_TOMEOFPORTAL]
+Towns
+ON=0 Bedston
+	SRC.SAY Kal Ort Por - Bedston
+	SRC.SYSMESSAGE You will be teleported. Do not move!
+	SRC.SOUND 01eb
+	SERV.NEWITEM i_system_tomeofportalmemory
+	NEW.MORE=10
+	NEW.MORE2=1
+	NEW.MOREP=3906,3080
+	NEW.TAG.PX=<SRC.P.X>
+	NEW.TAG.PY=<SRC.P.Y>
+	NEW.TIMER=1	
+	NEW.EQUIP
+
+ON=0 Eaglepoint
+	SRC.SAY Kal Ort Por - Eaglepoint
+	SRC.SYSMESSAGE You will be teleported. Do not move!
+	SRC.SOUND 01eb
+	SERV.NEWITEM i_system_tomeofportalmemory
+	NEW.MORE=10
+	NEW.MORE2=1
+	NEW.MOREP=3900,3080
+	NEW.TAG.PX=<SRC.P.X>
+	NEW.TAG.PY=<SRC.P.Y>
+	NEW.TIMER=1	
+	NEW.EQUIP
+
+[EoF]

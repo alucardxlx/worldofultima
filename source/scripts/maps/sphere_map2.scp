@@ -1,0 +1,22 @@
+//****************************************************************************
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Saturday, July 22, 2006
+// Made by Admin Peter (OnlineUO), modified for 56b by Furio
+VERSION=0.56b
+
+[AREADEF a_lbr]
+NAME=Ilshenar
+P=930,641,-80,2
+RECT=0,0,2299,1599,2
+GROUP=ALLMAP
+TAG.TITLE=the realm of
+EVENTS=r_default_rock,r_default_water,r_default_tree,r_default_grass
+
+[EOF]
