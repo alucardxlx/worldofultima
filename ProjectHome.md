@@ -1,0 +1,1 @@
+Popis casem dodam :)
